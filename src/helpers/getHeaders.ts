@@ -5,6 +5,7 @@ export const getHeaders = async () => {
     const { data } = await api.get("/headers");
     return data;
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching headers:", error);
+    throw error;
   }
 };

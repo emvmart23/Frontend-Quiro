@@ -1,6 +1,6 @@
 interface ReportHostess {
   hostess: string;
-  salary: number;
+  salary: string;
   hostess_role: number;
   profit_margin: number;
   currentSale: number;

@@ -5,14 +5,17 @@ import Sidebar from "@/components/Navbar/Sidebar";
 import UserDropDown from "@/components/UserDropDown";
 import { useAuth } from "@/hooks/useAuth";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import useBreakpointer from "@/hooks/useBreackpointer";
+import OutsideClick from "@/hooks/useDetectClickOut";
 
 export default function AppLayout() {
   const { user } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
   const width = useBreakpointer();
+  const ref = useRef<HTMLDivElement>(null);
+  const isClicked = OutsideClick(ref, setIsExpanded,isExpanded);
 
   const btnUpdateMenuVisibility = () => {
     setIsExpanded(!isExpanded);
@@ -43,20 +46,21 @@ export default function AppLayout() {
           </div>
         </div>
         <div
+          ref={ref}
           className={`${
-            isExpanded ? "w-[16rem]" : "w-[0rem]"
+            isClicked ? "w-[16rem]" : "w-[0rem]"
           } lg:w-[15rem] origin-left transition-all duration-75 bg-background h-screen fixed top-0 border-r z-50`}
         >
           <Button
             onClick={btnUpdateMenuVisibility}
             className={`${
-              isExpanded ? "block" : "hidden"
+              isClicked ? "block" : "hidden"
             } lg:hidden absolute top-1 right-2 p-2 w-7 h-7 flex justify-center`}
             variant={"outline"}
           >
             <X />
           </Button>
-          <Sidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+          <Sidebar isExpanded={isClicked} setIsExpanded={setIsExpanded} />
         </div>
       </div>
       <div className="transition-all duration-200 mx-auto w-[80%] md:w-full lg:w-[77%] lg:ml-[14rem] md:pl-20 max-w-320 pt-10">

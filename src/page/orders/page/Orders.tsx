@@ -1,5 +1,5 @@
 import { getProducts } from "@/helpers/getProducts";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useEffect, useState } from "react";
 import {
   OrderTables,
@@ -21,11 +21,12 @@ import {
 import api from "@/service";
 import { toast } from "@/hooks/useToast";
 import { Loader2 } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
+// import { useAuth } from "@/hooks/useAuth";
 import useTitle from "@/hooks/useTitle";
+import { ScrollArea } from "@/components/ui/ScrollArea";
 
 export default function Orders() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const { data, isLoading } = useQuery("products", getProducts);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [formatOrder, setFormatOrder] = useState<Product[]>([]);
@@ -34,7 +35,8 @@ export default function Orders() {
   const [orders, setOrders] = useState<Product[]>([]);
   const [isPending, setIsPending] = useState(false);
   const [value, setValue] = useState(0);
-  useTitle("Generar pedido")
+  const queryClient = useQueryClient();
+  useTitle("Generar pedido");
 
   const formatOrders = (array: Product[]) => {
     const formattedOrders = array.reduce((acc, product) => {
@@ -65,6 +67,10 @@ export default function Orders() {
     return acc + Number(curr.price);
   }, 0);
 
+  const ifHasMultipleCategoryOrder =
+    pendingOrders.some((i) => Boolean(i.has_alcohol) === true) &&
+    pendingOrders.some((i) => Boolean(i.has_alcohol) === false);
+
   const combineOrders = (
     formatOrders: Product[],
     totalPrice: number,
@@ -79,21 +85,6 @@ export default function Orders() {
     });
   };
 
-  const createHeader = async (headerData: { mozo_id: number | undefined }) => {
-    try {
-      const response = await api.post("/headers/create", headerData);
-      if (response.status !== 200) {
-        toast({
-          description: "Hubo un error al guardar el pedido",
-          variant: "destructive",
-        });
-      }
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const saveOrder = async () => {
     setIsPending(true);
 
@@ -104,44 +95,46 @@ export default function Orders() {
       });
       setIsPending(false);
       return;
+    } else if (ifHasMultipleCategoryOrder) {
+      toast({
+        description: "No puedes seleccionar múltiples categorías",
+        variant: "warning",
+      });
+      setIsPending(false);
+      return;
     }
 
-    try {
-      const header = {
-        mozo_id: user?.id,
-      };
-
-      const data = await createHeader(header);
-
-      const orderWithHosstes = orders.map((order) => {
-        return {
-          ...order,
-          hostess_id: value,
-        };
-      });
-
-      const response = await api.post("/orders/create", orderWithHosstes);
-
-      if (response.status === 200 && data?.status === 200) {
-        toast({
-          description: "Pedido guardado correctamente",
-          variant: "success",
+    setTimeout(async () => {
+      try {
+        const orderWithHostesses = orders.map((order) => {
+          return {
+            ...order,
+            product_id: order?.id,
+            hostess_id: value,
+          };
         });
-      } else {
+
+        const response = await api.post("/orders/create", orderWithHostesses);
+
+        if (response.status === 200) {
+          toast({
+            description: "Pedido guardado correctamente",
+            variant: "success",
+          });
+          queryClient.invalidateQueries("headers");
+        }
+        setValue(0);
+        setPendingOrders([]);
+      } catch (error) {
+        console.log(error);
         toast({
           description: "Hubo un error al guardar el pedido",
           variant: "destructive",
         });
+      } finally {
+        setIsPending(false);
       }
-
-      setValue(0);
-      setPendingOrders([]);
-      setIsPending(false);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsPending(false);
-    }
+    }, 4000);
   };
 
   useEffect(() => {
@@ -192,7 +185,7 @@ export default function Orders() {
             </div>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button disabled={orders.length <= 0 ? true : false}>
+                <Button disabled={orders.length <= 0 ? true : isPending}>
                   {isPending && (
                     <Loader2
                       className="mr-2 h-4 w-4 animate-spin"
@@ -219,16 +212,18 @@ export default function Orders() {
           </div>
         </div>
       </div>
-      <div className="flex gap-4 relative top-[2rem] md:top-[30rem]">
-        <OrderAction
-          isLoading={isLoading}
-          setPendingOrders={setPendingOrders}
-          pendingOrders={pendingOrders}
-          filteredProducts={filteredProducts}
-          setFilteredProducts={setFilteredProducts}
-          formatOrders={formatOrders}
-          setFormatOrder={setFormatOrder}
-        />
+      <div className=" flex gap-4 relative top-[2rem] md:top-[27rem]">
+        <ScrollArea className="h-96 p-8">
+          <OrderAction
+            isLoading={isLoading}
+            setPendingOrders={setPendingOrders}
+            pendingOrders={pendingOrders}
+            filteredProducts={filteredProducts}
+            setFilteredProducts={setFilteredProducts}
+            formatOrders={formatOrders}
+            setFormatOrder={setFormatOrder}
+          />
+        </ScrollArea>
       </div>
     </section>
   );

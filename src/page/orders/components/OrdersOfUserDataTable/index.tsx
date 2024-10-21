@@ -61,6 +61,7 @@ export function OrdersOfUserDataTable({ data, isLoading, user }: Props) {
       value: user?.id,
     },
   ]);
+  
   const table = useReactTable({
     data,
     columns,

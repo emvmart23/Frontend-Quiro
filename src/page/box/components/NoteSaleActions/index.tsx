@@ -34,7 +34,6 @@ export default function NoteSaleActions({ setIsOpen, header }: Props) {
         });
       }
     } catch (error) {
-      console.log(error);
       toast({
         description: "Error al anular venta",
         variant: "destructive",
@@ -46,11 +45,7 @@ export default function NoteSaleActions({ setIsOpen, header }: Props) {
   return (
     <>
       <PDFDownloadLink document={<PDF data={header} />} fileName="notes.pdf">
-        {() => (
-          <Button className="w-full">
-            PDF ticket
-          </Button>
-        )}
+        {() => <Button className="w-full">PDF ticket</Button>}
       </PDFDownloadLink>
       {header.state_doc !== null &&
         (Boolean(header.state_doc) === true ? (
@@ -65,11 +60,7 @@ export default function NoteSaleActions({ setIsOpen, header }: Props) {
               document={<PdfTickets data={header} user={user} />}
               fileName="anfitrionas.pdf"
             >
-              {() => (
-                <Button className="w-full">
-                  Generar nota
-                </Button>
-              )}
+              {() => <Button className="w-full">Generar nota</Button>}
             </PDFDownloadLink>
           </>
         ))}

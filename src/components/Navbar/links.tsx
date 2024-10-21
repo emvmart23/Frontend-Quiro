@@ -1,5 +1,6 @@
 import {
   AlarmClock,
+  ArchiveX,
   Boxes,
   CirclePlus,
   ClipboardMinus,
@@ -18,6 +19,7 @@ import {
   User,
   Users,
   Wine,
+  AlignStartVertical
 } from "lucide-react";
 
 const sizes = {
@@ -126,6 +128,11 @@ export const links = [
     ],
   },
   {
+    icon: <AlignStartVertical size={sizes.menu} />,
+    title: "Otros gastos",
+    path: "/otros-gastos",
+  },
+  {
     icon: <ClipboardMinus size={sizes.menu} />,
     title: "Reportes",
     childrens: [
@@ -134,6 +141,11 @@ export const links = [
         title: "Anfitrionas",
         path: "/reportes-de-anfitrionas",
       },
+      {
+        icon: <ArchiveX size={sizes.subMenu} />,
+        title: "Cierre de caja",
+        path: "/reportes-de-cajas",
+      }
     ],
   },
 ];

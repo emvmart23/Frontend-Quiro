@@ -22,7 +22,6 @@ import {
 import { useQuery, useQueryClient } from "react-query";
 import { ProductSchema } from "@/lib/validators/product";
 import { Checkbox } from "@/components/ui/Checkbox";
-import { useEffect, useState } from "react";
 import { getCategories } from "@/helpers/getCategories";
 import { getUnits } from "@/helpers/getUnits";
 

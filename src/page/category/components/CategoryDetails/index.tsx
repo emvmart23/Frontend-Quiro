@@ -29,7 +29,7 @@ export default function CaregoryDetails({ category, setIsOpen }: Props) {
       }
       queryClient.invalidateQueries("categories");
     } catch (error) {
-      console.log(error);
+      console.log(error); 
       toast({
         description: "Error al eliminar la categoria",
         variant: "destructive",

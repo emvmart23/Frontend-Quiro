@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getAttendance } from "@/helpers/getAttendance";
 import { getHeaders } from "@/helpers/getHeaders";
 import { ReportHostessDataTable } from "../components/index";
-import { useQuery } from "react-query";
 import { format } from "date-fns";
 import ReportHostessActions from "../components/ReportHostessActions";
 import { ColumnFiltersState } from "@tanstack/react-table";
 import { getValueOfColumnsFilter } from "@/lib/utils/getValueOfColumnFilters";
-// import PdfHostess from "../Pdf/index";
-// import { PDFViewer } from "@react-pdf/renderer";
+import { useQueries } from "react-query";
 
-interface TotalNotSale {
+export interface TotalNotSale {
   hostess_id: number;
   total_price: number;
 }
 
 // gets salary of hostess
-const currentSale = (array: TotalNotSale[], id: number) =>
-  array.reduce((acc, curr) => {
+export const currentSale = (array: TotalNotSale[], id: number) =>
+  array?.reduce((acc, curr) => {
     if (curr.hostess_id === id) {
       acc = acc + Number(curr.total_price);
     }
@@ -25,13 +23,21 @@ const currentSale = (array: TotalNotSale[], id: number) =>
   }, 0);
 
 export default function ReportHostess() {
+  const queries = useQueries([
+    { queryKey: ["headInHostess"], queryFn: getAttendance },
+    { queryKey: ["attendanceInHotess"], queryFn: getHeaders },
+  ]);
+
+  const [{ data: allAttendances, isLoading }, { data: allNoteDetails }] =
+    queries;
+
   const currentDate = format(new Date(), "yyyy-MM-dd");
-  const { data, isLoading } = useQuery("hostess", getAttendance);
-  const [noteDetails, setNoteDetails] = useState<Header[]>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-  const presentUsers: ReportHostess[] = (data ? data.attendances : [])
-    .filter(
+  const presentUsers: ReportHostess[] = (
+    allAttendances ? allAttendances?.attendances : []
+  )
+    ?.filter(
       (hostess: Attendace) =>
         !!hostess.present === true &&
         hostess.box_date ===
@@ -40,14 +46,14 @@ export default function ReportHostess() {
     )
     .map((d: Attendace) => {
       const e = currentSale(
-        noteDetails
+        allNoteDetails?.header
           .filter(
-            (note) =>
+            (note: Header) =>
               note.box_date ===
                 (getValueOfColumnsFilter(columnFilters, "box_date") ??
-                  currentDate) && !!note.state_doc == false
+                  currentDate) && !!note.state_doc == false && note.state_doc !== null
           )
-          .map((order) => {
+          .map((order: Header) => {
             const orders = order.orders.find((or) => or);
             return {
               hostess_id: orders?.hostess_id,
@@ -58,7 +64,7 @@ export default function ReportHostess() {
       );
 
       const comission = e * (d.profit_margin / 100);
-
+      
       return {
         hostess: d.user,
         salary: d.salary,
@@ -76,16 +82,7 @@ export default function ReportHostess() {
       pdf.hostess_role ===
       Number(getValueOfColumnsFilter(columnFilters, "hostess_role"))
   );
-
-  const fetchDetailsOfNotes = async () => {
-    const { header } = await getHeaders();
-    setNoteDetails(header);
-  };
-
-  useEffect(() => {
-    fetchDetailsOfNotes();
-  }, []);
-
+  
   return (
     <section className="flex flex-col gap-y-6 md:w-[95%] mx-auto">
       <h1 className="text-[1.4rem] md:text-2xl font-medium">
@@ -104,9 +101,6 @@ export default function ReportHostess() {
             : handleExportToBothDocuments
         }
       />
-      {/* <PDFViewer className="w-full h-screen absolute top-12">
-        <PdfHostess data={presentUsers} />
-      </PDFViewer> */}
     </section>
   );
 }

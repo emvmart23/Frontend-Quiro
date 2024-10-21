@@ -35,13 +35,13 @@ export default function CardDetails({ data }: Props) {
           description: "Pedido atendido correctamente",
           variant: "success",
         });
+        queryClient.invalidateQueries("headers");
       } else {
         toast({
           description: "Error al antender",
           variant: "destructive",
         });
       }
-      queryClient.invalidateQueries("orders");
     } catch (error) {
       console.log(error);
     } finally {
@@ -50,18 +50,18 @@ export default function CardDetails({ data }: Props) {
   };
 
   return (
-    <Card key={data.id} className="w-[15rem] h-auto relative">
+    <Card key={data.id} className="w-[15rem] h-auto relative mx-auto">
       <CardHeader className="p-0">
         <CardTitle className="bg-green-500 p-4 text-center rounded-t-md">
           Pedido {data.id}
         </CardTitle>
         <CardDescription className="space-y-2 px-6 py-5">
           <p>Mozo : {data.mozo}</p>
-          <p>Anfitriona : {getJustHostess(data.orders)}</p>
+          <p>Anfitriona : {getJustHostess(data?.orders)}</p>
         </CardDescription>
       </CardHeader>
       <CardContent className="mb-20">
-        {data.orders.map((order, index) => {
+        {data.orders?.map((order, index) => {
           return (
             <ul key={index} className="font-semibold list-disc">
               <li className="ml-3">

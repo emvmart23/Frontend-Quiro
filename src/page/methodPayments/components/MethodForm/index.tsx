@@ -31,7 +31,6 @@ export default function MethodForm({ setIsPending, setIsOpen }: Props) {
 
   const onSubmit = async (values: z.infer<typeof MethodPaymentsSchema>) => {
     setIsPending(true);
-    console.log("data", values)
     try {
       const response = await api.post("/payments/create", values);
       if (response.status === 200) {
@@ -39,7 +38,7 @@ export default function MethodForm({ setIsPending, setIsOpen }: Props) {
           description: "Método de pago creado correctamente",
           variant: "success",
         });
-        queryClient.invalidateQueries("methods");
+        queryClient.invalidateQueries("method");
       } else {
         toast({
           description: "Error al crear el método de pago",

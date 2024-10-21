@@ -168,7 +168,7 @@ export const columns: ColumnDef<Header>[] = [
       return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button>Acciones</Button>
+            <Button>Cobrar</Button>
           </DialogTrigger>
           <DialogContent className={`max-w-[20rem] ${dsds && "h-[16rem]"}`}>
             <DialogHeader className="mb-2">

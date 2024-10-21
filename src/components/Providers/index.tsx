@@ -12,13 +12,13 @@ export default function Providers({ children }: Props) {
   const queryClient = new QueryClient();
   return (
     <BrowserRouter>
-        <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-              {children}
-            </ThemeProvider>
-          </QueryClientProvider>
-        </Provider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+            {children}
+          </ThemeProvider>
+        </QueryClientProvider>
+      </Provider>
     </BrowserRouter>
   );
 }

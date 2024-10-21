@@ -5,7 +5,6 @@ import { getUsers } from "@/helpers/users/getUsers";
 
 export default function Users() {
   const { data, isLoading } = useQuery("users", getUsers);
-
   return (
     <section className="flex flex-col gap-8 w-full">
       <h3 className="text-3xl">Usuarios</h3>

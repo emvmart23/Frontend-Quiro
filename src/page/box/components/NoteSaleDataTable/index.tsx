@@ -126,6 +126,7 @@ export default function NoteSaleDataTable({ data, isLoading }: Props) {
           </Select>
           <Combobox
             heading={"Mozos"}
+            className="min-w-[15rem]"
             selectItemMsg="Filtrar mozo"
             data={formatUsers(users, 7)}
             onSelect={(value) => table.getColumn("mozo")?.setFilterValue(value)}
@@ -143,7 +144,7 @@ export default function NoteSaleDataTable({ data, isLoading }: Props) {
             onChange={(event) =>
               table.getColumn("created_at")?.setFilterValue(event.target.value)
             }
-            className="min-w-[10rem]"
+            className="min-w-[10rem] text-center"
           />
         </div>
         <DropdownMenu>

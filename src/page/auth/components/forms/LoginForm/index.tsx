@@ -50,7 +50,6 @@ export function LoginForm() {
       }
       navigate("/");
     } catch (error:any) {
-      console.log(error)
       if (error.response && error.response.status === 401) {
         toast({
           title: "Credenciales incorrectas",

@@ -16,14 +16,14 @@ interface Props {
     }[];
   };
 }
-//  
+
 export default function SidebarItems({ links, isExpanded }: Props) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const location = useLocation();
   const isActive = location.pathname === links?.path;
 
   const handleClick = () => {
-    setOpen(!open)
+    setOpen(!open);
   };
 
   return links?.childrens ? (
@@ -42,9 +42,7 @@ export default function SidebarItems({ links, isExpanded }: Props) {
         </span>
         <ArrowRight
           size={15}
-          className={`${
-            open && "rotate-90"
-          } transition-all `}
+          className={`${open && "rotate-90"} transition-all `}
         />
       </div>
       <div
@@ -54,6 +52,7 @@ export default function SidebarItems({ links, isExpanded }: Props) {
       >
         {links?.childrens.map((child, index) => {
           const isActiveSubMenu = location.pathname === child.path;
+
           return (
             <NavLink
               key={index}

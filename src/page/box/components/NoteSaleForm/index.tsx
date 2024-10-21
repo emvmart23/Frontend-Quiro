@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/Button";
-import { Calendar } from "@/components/ui/Calendar";
 import {
   Form,
   FormControl,
@@ -9,11 +8,6 @@ import {
   FormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/Popover";
 import {
   Select,
   SelectContent,
@@ -32,15 +26,14 @@ import {
 import { getCustomer } from "@/helpers/getCustomer";
 import { getMethodPayments } from "@/helpers/getMethodPayments";
 import { toast } from "@/hooks/useToast";
-import { cn } from "@/lib/utils/tools";
 import { NoteScheme } from "@/lib/validators/product";
 import api from "@/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon, Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { z } from "zod";
 
 interface Props {
@@ -56,16 +49,16 @@ export default function NoteSaleForm({
   setPaymentFields,
   header,
 }: Props) {
-  const [customer, setCustomer] = useState<Customer[]>([]);
+  const { data } = useQuery("customer", getCustomer);
   const [methodPayments, setMethodPayments] = useState<MethodPayment[]>([]);
-  const currentDate = format(new Date(), "yyyy-MM-dd");
+  const [isPending, setIsPending] = useState(false);
   const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof NoteScheme>>({
     resolver: zodResolver(NoteScheme),
     defaultValues: {
       hostess_id: header?.hostess_id,
-      issue_date: currentDate,
+      issue_date: format(new Date(), "yyyy-MM-dd"),
       total_price: Number(ordersDetails?.total_price),
       payment: [
         {
@@ -78,6 +71,7 @@ export default function NoteSaleForm({
 
   const onSubmit = async (values: z.infer<typeof NoteScheme>) => {
     setIsOpen(true);
+    setIsPending(true);
     try {
       const response = await api.post(`/details/create/${header.id}`, values);
       if (response.status === 200) {
@@ -86,7 +80,13 @@ export default function NoteSaleForm({
           variant: "success",
         });
         queryClient.invalidateQueries("headers");
+        queryClient.invalidateQueries("orders");
+        queryClient.invalidateQueries("attend");
+        queryClient.invalidateQueries("head");
+        queryClient.invalidateQueries("otherInBox");
+        queryClient.invalidateQueries("boxes");
         setIsOpen(false);
+        setIsPending(false);
       } else {
         toast({
           description: "Error al realizar venta",
@@ -101,6 +101,7 @@ export default function NoteSaleForm({
       });
     } finally {
       setIsOpen(false);
+      setIsPending(false);
     }
   };
 
@@ -111,25 +112,14 @@ export default function NoteSaleForm({
 
   const fetchMethosPayments = async () => {
     try {
-      const { data } = await getMethodPayments();
-      setMethodPayments(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const fetchCustomer = async () => {
-    try {
-      const { customer } = await getCustomer();
-      setCustomer(customer);
-      return;
+      const { method } = await getMethodPayments();
+      setMethodPayments(method);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    fetchCustomer();
     fetchMethosPayments();
   }, []);
 
@@ -160,12 +150,12 @@ export default function NoteSaleForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {customer?.length <= 0 ? (
+                    {(data ? data?.customer : [])?.length <= 0 ? (
                       <span className="font-medium ml-2 text-[0.9rem] text-foreground/60">
                         No hay clientes registrados
                       </span>
                     ) : (
-                      customer?.map((data) => (
+                      (data ? data?.customer : [])?.map((data: Customer) => (
                         <SelectItem key={data.id} value={data.id.toString()}>
                           {data.name}
                         </SelectItem>
@@ -181,39 +171,10 @@ export default function NoteSaleForm({
             control={form.control}
             name="issue_date"
             render={({ field }) => (
-              <FormItem className="w-full flex flex-col">
-                <FormLabel>Fecha de emisión</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-full pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "yyyy-MM-dd")
-                        ) : (
-                          <span>Seleccione una fecha</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={new Date(field.value)}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+              <FormItem>
+                <FormControl>
+                  <Input {...field} type="date" value={field.value} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -231,7 +192,7 @@ export default function NoteSaleForm({
             )}
           />
         </div>
-        <div className="overflow-auto h-40 mt-4">
+        <div className="overflow-auto h-52 mt-4">
           <Table className="">
             <TableHeader>
               <TableRow>
@@ -245,7 +206,7 @@ export default function NoteSaleForm({
                     variant={"outline"}
                     onClick={() =>
                       append({
-                        payment_method: "ingresa",
+                        payment_id: 0,
                         mountain: 10,
                         reference: "ok",
                       })
@@ -260,14 +221,16 @@ export default function NoteSaleForm({
             <TableBody>
               {fields?.map((field, index) => (
                 <TableRow key={field.id}>
-                  <TableCell className="pl-[0.3rem]">
+                  <TableCell>
                     <FormField
                       control={form.control}
-                      name={`payment.${index}.payment_method`}
+                      name={`payment.${index}.payment_id`}
                       render={({ field }) => (
                         <FormItem>
                           <Select
-                            onValueChange={(value) => field.onChange(value)}
+                            onValueChange={(value) =>
+                              field.onChange(Number(value))
+                            }
                           >
                             <FormControl>
                               <SelectTrigger
@@ -279,11 +242,16 @@ export default function NoteSaleForm({
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {methodPayments?.map((data) => (
-                                <SelectItem key={data.id} value={data.name}>
-                                  {data.name}
-                                </SelectItem>
-                              ))}
+                              {(methodPayments ? methodPayments : [])?.map(
+                                (data: MethodPayment) => (
+                                  <SelectItem
+                                    key={data.id}
+                                    value={data.id.toString()}
+                                  >
+                                    {data.name}
+                                  </SelectItem>
+                                )
+                              )}
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -298,7 +266,7 @@ export default function NoteSaleForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
-                            <Input placeholder="shadcn" {...field} />
+                            <Input placeholder="monto" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -312,7 +280,7 @@ export default function NoteSaleForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
-                            <Input placeholder="shadcn" {...field} />
+                            <Input placeholder="Referencia" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -336,9 +304,13 @@ export default function NoteSaleForm({
         </div>
         <Button
           form="finish-sale-form"
+          disabled={isPending}
           type="submit"
           className="absolute right-8 bottom-6"
         >
+          {isPending && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+          )}
           Enviar
         </Button>
       </form>

@@ -1,15 +1,23 @@
-// import { RefObject, useEffect, useState } from "react";
+import { RefObject, useEffect } from "react";
 
-// export default function useDetectClickOut<T>(ref: RefObject<T>) {
-//   const [isClicked, setIsClicked] = useState(false);
+export default function OutsideClick(
+  ref: RefObject<HTMLElement>,
+  setIsClicked: (value: boolean) => void,
+  isClicked: boolean
+) {
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsClicked(false);
+      } else {
+        setIsClicked(true);
+      }
+    }
 
-//   useEffect(() => {
-//     function handleClickOutside(event: any) {
-//       if (ref.current && !ref.current.constains) {
-//         setIsClicked(true);
-//       } else {
-//         setIsClicked(false);
-//       }
-//     }
-//   }, [ref]);
-// }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+  return isClicked;
+}

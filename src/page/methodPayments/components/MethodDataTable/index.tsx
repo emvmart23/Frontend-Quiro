@@ -69,7 +69,7 @@ export default function MethodDataTable({ data, isLoading }: Props) {
     },
   });
   return (
-    <div className="w-full md:w-[80%] mx-auto">
+    <div className="w-full md:w-[60%] mx-auto">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filtar nombre..."

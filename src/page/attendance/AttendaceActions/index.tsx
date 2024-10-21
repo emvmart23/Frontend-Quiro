@@ -1,32 +1,27 @@
 import { Button } from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
-import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import { useState } from "react";
 import AttendanceForm from "../AttendanceForm";
-import { getBoxes } from "@/helpers/getBoxes";
-import { DialogDescription } from "@radix-ui/react-dialog";
+import api from "@/service";
+import { useQuery } from "react-query";
+
+const getBox = async () => {
+  const { data } = await api.get("/boxes");
+  return data;
+};
 
 export default function AttendanceActions() {
-  const [allBoxes, setBoxes] = useState<Box[]>([]);
+  const { data: allBoxes } = useQuery("boxInAttendance", getBox);
+
   const [isOpen, setIsOpen] = useState(false);
 
-  const fetchBox = async () => {
-    try {
-      const data = await getBoxes();
-      setBoxes(data.boxes);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchBox();
-  }, []);
-
-  const lastId = allBoxes.reduceRight(
-    (maxId, box) => Math.max(maxId, box.id),
+  const lastId = (allBoxes ? allBoxes.boxes : []).reduceRight(
+    (maxId: number, box: Box) => Math.max(maxId, box.id),
     0
   );
-  const lastBox = allBoxes.find((box) => box.id === lastId);
+  const lastBox = (allBoxes ? allBoxes.boxes : []).find(
+    (box: Box) => box.id === lastId
+  );
   const boxIsClose = Boolean(lastBox?.state);
 
   return (
@@ -37,7 +32,7 @@ export default function AttendanceActions() {
         </Button>
       </DialogTrigger>
       <DialogContent className="md:max-w-2xl h-[30rem]">
-        <AttendanceForm setIsOpen={setIsOpen} />
+        <AttendanceForm setIsOpen={setIsOpen} lastBox={lastBox} />
       </DialogContent>
     </Dialog>
   );

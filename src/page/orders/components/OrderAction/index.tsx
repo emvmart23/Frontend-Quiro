@@ -6,10 +6,10 @@ import { Input } from "@/components/ui/Input";
 import { toast } from "@/hooks/useToast";
 
 interface Props {
-  pendingOrders: Product[]; // este pendingOrders es un array que alamcena  los productos por ejemplo subo un item a este array y si se repite este esta siendo pasado con un reduce para que si el item se repite salga solo un item con este nombre pero con un contador de este producto pro ejemplo esta es la estructura { id:number, name:string, price:number, count:number }[]
+  pendingOrders: Product[]; 
   isLoading: boolean;
-  setPendingOrders: (value: Product[]) => void; // alterador de pendingOrders
-  filteredProducts: Product[]; // este es un array con productos que tiene un filter para que puede ser buscado mediante su key esta es la estructura { id:number, name:string, price:number }[]
+  setPendingOrders: (value: Product[]) => void;
+  filteredProducts: Product[];
   setFilteredProducts: (value: Product[]) => void;
   formatOrders: (array: Product[]) => Product[];
   setFormatOrder: (value: Product[]) => void;
@@ -89,10 +89,9 @@ export default function OrderAction({
           No hay resultados
         </div>
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 w-[88%] content-center mx-auto md:p-2">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 w-[88%] content-center mx-auto p-3 md:p-4">
           {filteredProducts.map((product) => {
             const cardById = product.id === editingProductId;
-
             return (
               <Card
                 key={product.id}

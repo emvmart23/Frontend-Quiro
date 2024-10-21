@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import api from "@/service";
 import { toast } from "@/hooks/useToast";
@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/Dialog";
 import { Loader2 } from "lucide-react";
-import { getHeaders } from "@/helpers/getHeaders";
+import { useHeaders } from "@/hooks/useHeaders";
 
 interface Props {
   box: Box;
@@ -18,11 +18,14 @@ interface Props {
 }
 
 export default function OpeningBoxDetails({ box, setIsOpen }: Props) {
+  const { data: headers } = useHeaders();
+
   const [isPending, setIsPending] = useState(false);
-  const [headers, setHeaders] = useState<Header[]>([]);
   const queryClient = useQueryClient();
 
-  const isActive : boolean = headers?.some((header) => !!header.state_doc === true);
+  const isActive: boolean = (headers ? headers.header : [])?.some(
+    (header:Header) => !!header.state_doc === true
+  );
 
   const closeBox = async () => {
     if (isActive) {
@@ -43,6 +46,7 @@ export default function OpeningBoxDetails({ box, setIsOpen }: Props) {
         });
       }
       queryClient.invalidateQueries("box");
+      queryClient.invalidateQueries("boxes");
       setIsPending(false);
       setIsOpen(false);
     } catch (error) {
@@ -52,19 +56,6 @@ export default function OpeningBoxDetails({ box, setIsOpen }: Props) {
       setIsOpen(false);
     }
   };
-
-  const fetchHeaders = async () => {
-    try {
-      const { header } = await getHeaders();
-      setHeaders(header);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchHeaders();
-  }, []);
 
   return (
     <DialogContent className="w-[400px]">

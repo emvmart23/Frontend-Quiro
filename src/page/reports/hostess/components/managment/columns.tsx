@@ -64,7 +64,7 @@ export const columns: ColumnDef<ReportHostess>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="ml-2">S/. {row.getValue("salary")}</div>,
+    cell: ({ row }) => <div className="ml-2">S/. {Number(row.getValue("salary")).toFixed(2)}</div>,
   },
   {
     accessorKey: "profit_margin",
@@ -107,7 +107,7 @@ export const columns: ColumnDef<ReportHostess>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="ml-7">{row.getValue("comission")}</div>,
+    cell: ({ row }) => <div className="ml-7">{Number(row.getValue("comission")).toFixed(2)}</div>,
   },
   {
     accessorKey: "total",

@@ -25,7 +25,7 @@ export default function MethodsDetails({ data, setIsOpen }: Props) {
           variant: "success",
         });
       }
-      queryClient.invalidateQueries("methods");
+      queryClient.invalidateQueries("method");
     } catch (error) {
       console.log(error);
       toast({

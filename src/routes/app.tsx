@@ -17,6 +17,8 @@ import Units from "@/page/unitMeasure/page/Units";
 import Users from "@/page/user/page/Users";
 import OrdersOfUser from "@/page/orders/page/OrdersOfUser";
 import ReportHostess from "@/page/reports/hostess/page/ReportHostess";
+import CloseOfBoxes from "@/page/reports/closeOfBox/page/CloseOfBoxes";
+import Other from "@/page/otherExpenses/page/Other";
 
 const appRouter = [
   {
@@ -90,6 +92,14 @@ const appRouter = [
       {
         path:"/reportes-de-anfitrionas",
         element:<ReportHostess/>
+      },
+      {
+        path:"/reportes-de-cajas",
+        element:<CloseOfBoxes/>
+      },
+      {
+        path:"/otros-gastos",
+        element:<Other/>
       },
       {
         path: "*",

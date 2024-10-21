@@ -1,11 +1,10 @@
-import { useQuery } from "react-query";
 import { OrdersOfUserDataTable } from "../components/OrdersOfUserDataTable";
-import { getHeaders } from "@/helpers/getHeaders";
 import { useAuth } from "@/hooks/useAuth";
 import useTitle from "@/hooks/useTitle";
+import { useHeaders } from "@/hooks/useHeaders";
 
 export default function OrdersOfUser() {
-  const { data, isLoading } = useQuery("headers", getHeaders);
+  const { data, isLoading } = useHeaders();
   useTitle("Lista de pedidos")
   const { user } = useAuth();
 

@@ -21,7 +21,7 @@ export default function MethodEditForm({ data, setIsPending, setIsOpen }:Props) 
         name: data?.name
       }
     })
-
+    
     const onSubmit = async (values: z.infer<typeof MethodPaymentsSchema>) => {
       setIsPending(true)
       try {

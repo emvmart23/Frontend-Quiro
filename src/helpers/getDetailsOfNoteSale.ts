@@ -1,6 +1,6 @@
 import api from "@/service";
 
-export const getDetailsOfNoteSale = async () => {
+export const getDetails = async () => {
   try {
     const { data } = await api.get("/details");
     return data;

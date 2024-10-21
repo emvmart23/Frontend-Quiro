@@ -26,6 +26,7 @@ const initialState: Auth = {
     JSON.parse(getSessionStorage("user") as string) ||
     null,
 };
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,

@@ -21,9 +21,10 @@ import { Loader2 } from "lucide-react";
 
 interface Props {
   setIsOpen: (value: boolean) => void;
+  lastBox: Box;
 }
 
-export default function AttendanceForm({ setIsOpen }: Props) {
+export default function AttendanceForm({ setIsOpen, lastBox }: Props) {
   const queryClient = useQueryClient();
   const currentDate = format(new Date(), "yyyy-MM-dd");
   const [users, setUsers] = useState<Attendace[]>([]);
@@ -41,7 +42,7 @@ export default function AttendanceForm({ setIsOpen }: Props) {
         setAllAttendances(attendances);
 
         const isPresent = attendances.filter(
-          (attendance: Attendace) => attendance.date === currentDate
+          (attendance: Attendace) => attendance?.box_date === lastBox.opening
         );
         const isAttendancePresent = (index: number) =>
           isPresent[index] ? isPresent[index].present : false;
@@ -64,7 +65,7 @@ export default function AttendanceForm({ setIsOpen }: Props) {
   }, [currentDate]);
 
   const isDateExist = allAttendances.some(
-    (attendance) => attendance.box_date === currentDate
+    (attendance) => attendance?.box_date === lastBox.opening
   );
 
   const handleCheckOnChange = (index: number) => {
@@ -84,16 +85,18 @@ export default function AttendanceForm({ setIsOpen }: Props) {
     }
 
     if (isDateExist) {
+      setIsPending(true);
       try {
         const { status } = await api.patch("/attendances/update", users);
+        queryClient.invalidateQueries("Attendance");
         if (status == 200) {
           toast({
             description: "Asistencia actualizada",
             variant: "success",
           });
         }
-        queryClient.invalidateQueries("Attendance");
         setIsOpen(false);
+        setIsPending(false);
       } catch (error) {
         console.log(error);
         toast({
@@ -110,16 +113,16 @@ export default function AttendanceForm({ setIsOpen }: Props) {
             description: "Asistencia guardada",
             variant: "success",
           });
+          setIsOpen(false);
           queryClient.invalidateQueries("Attendance");
+          setIsPending(false);
         } else {
           toast({
-            description: "Asistencia guardada",
-            variant: "success",
+            description: "Error al guardar asistencia",
+            variant: "destructive",
           });
         }
-        setIsOpen(false);
       } catch (error: any) {
-        console.log(error);
         if (error.response && error.response.status === 400) {
           toast({
             description: "La caja anterior debe ser cerrada",
@@ -157,10 +160,7 @@ export default function AttendanceForm({ setIsOpen }: Props) {
             </div>
             <div className="flex justify-center items-center gap-4">
               <label className="font-semibold">Fecha caja</label>
-              <Input
-                className="w-32"
-                placeholder={format(new Date(), "yyyy-MM-dd")}
-              />
+              <Input className="w-32" placeholder={lastBox?.opening} />
             </div>
           </div>
           <Table className="w-full">
@@ -201,13 +201,19 @@ export default function AttendanceForm({ setIsOpen }: Props) {
           </Table>
         </>
       )}
-      <div className="absolute bottom-3 w-[95%] left-4">
+      <div className="absolute bottom-[0.2rem] w-[95%] left-4">
         {isDateExist ? (
-          <Button className="w-full" type="submit">
+          <Button className="w-full" type="submit" disabled={isPending}>
+            {isPending && (
+              <Loader2
+                className="mr-2 h-4 w-4 animate-spin"
+                aria-hidden="true"
+              />
+            )}
             Editar
           </Button>
         ) : (
-          <Button className="w-full" type="submit">
+          <Button className="w-full" type="submit" disabled={isPending}>
             {isPending && (
               <Loader2
                 className="mr-2 h-4 w-4 animate-spin"

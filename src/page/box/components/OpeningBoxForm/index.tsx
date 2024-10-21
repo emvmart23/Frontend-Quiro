@@ -18,8 +18,7 @@ import { BoxSchema } from "@/lib/validators/box";
 import api from "@/service";
 import { useAuth } from "@/hooks/useAuth";
 import { format } from "date-fns";
-import { useEffect, useState } from "react"
-import { getBoxes } from "@/helpers/getBoxes";
+import { useBoxes } from "@/hooks/useBoxes";
 
 interface Props {
   setIsPending: (value: boolean) => void;
@@ -27,7 +26,7 @@ interface Props {
 }
 
 export default function OpeningBoxForm({ setIsPending, setIsOpen }: Props) {
-  const [allBoxes, setAllBoxes] = useState<Box[]>([]);
+  const { data: allBoxes } = useBoxes();
   const currentDate = format(new Date(), "yyyy-MM-dd");
   const queryClient = useQueryClient();
   const { user } = useAuth();
@@ -43,21 +42,14 @@ export default function OpeningBoxForm({ setIsPending, setIsOpen }: Props) {
     },
   });
 
-  const fetchBoxes = async () => {
-    try {
-      const  data  = await getBoxes();
-      setAllBoxes(data.boxes);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const lastId = allBoxes.reduceRight(
-    (maxId, box) => Math.max(maxId, box.id),
+  const lastId = (allBoxes ? allBoxes.boxes : [])?.reduceRight(
+    (maxId: number, box: Box) => Math.max(maxId, box.id),
     0
   );
 
-  const lastBox = allBoxes.find((box) => box.id === lastId);
+  const lastBox = (allBoxes ? allBoxes.boxes : []).find(
+    (box: Box) => box.id === lastId
+  );
 
   const onSubmit = async (values: z.infer<typeof BoxSchema>) => {
     const boxIsClose = Boolean(lastBox?.state);
@@ -77,7 +69,7 @@ export default function OpeningBoxForm({ setIsPending, setIsOpen }: Props) {
             variant: "success",
           });
         }
-        queryClient.invalidateQueries("box");
+        queryClient.invalidateQueries("boxes");
         setIsOpen(false);
       } catch (error) {
         toast({
@@ -89,10 +81,6 @@ export default function OpeningBoxForm({ setIsPending, setIsOpen }: Props) {
       }
     }
   };
-
-  useEffect(() => {
-    fetchBoxes();
-  }, []);
 
   return (
     <Form {...form}>

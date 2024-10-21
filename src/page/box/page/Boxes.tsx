@@ -1,13 +1,12 @@
-import { useQuery } from "react-query";
 import NoteSaleDataTable from "../components/NoteSaleDataTable";
-import { getHeaders } from "@/helpers/getHeaders";
 import useTitle from "@/hooks/useTitle";
+import { useHeaders } from "@/hooks/useHeaders";
 
 export default function Boxes() {
-  const { data, isLoading } = useQuery("headers", getHeaders);
-  useTitle("Cobranza")
+  const { data, isLoading } = useHeaders();
+  useTitle("Cobranza");
 
-  const formatHeader = (data ? data.header : [])?.map((header: Header) => {
+  const formatHeader = (data ? data?.header : [])?.map((header: Header) => {
     const order = header?.orders.find((order) => order);
     return {
       ...header,

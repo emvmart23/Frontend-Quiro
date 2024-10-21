@@ -151,7 +151,7 @@ export default function UserForm({ setIsPending, setIsOpen }: Props) {
           name="role_id"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Tipo de rol</FormLabel>
+              <FormLabel>Cargo</FormLabel>
               <Select
                 onValueChange={(value) => field.onChange(Number(value))}
                 defaultValue="1"

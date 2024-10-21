@@ -53,8 +53,8 @@ export default function NotesTableRow({ data }: Props) {
             <Text style={styles.salary}>S/.{item?.salary}</Text>
             <Text style={styles.profit}>{item?.profit_margin}%</Text>
             <Text style={styles.todaySale}>S./{item?.currentSale}</Text>
-            <Text style={styles.commission}>{item?.comission}</Text>
-            <Text style={styles.total}>S/.{item?.total}</Text>
+            <Text style={styles.commission}>{item?.comission.toFixed(2)}</Text>
+            <Text style={styles.total}>S/.{item?.total.toFixed(2)}</Text>
           </View>
         );
       })}
