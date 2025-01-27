@@ -8,8 +8,10 @@ export default function OpeningBoxes() {
   useTitle("Apertura de cajas");
 
   return (
-    <section className="flex flex-col gap-6 w-full">
-      <h1 className="text-3xl font-medium mb-4">Apertura de cajas</h1>
+    <section className="flex flex-col gap-8 w-full">
+      <h1 className="text-[1.4rem] md:text-3xl font-medium">
+        Apertura de cajas
+      </h1>
       <BoxActions />
       <OpeningBoxDataTable
         data={data ? data?.boxes : []}

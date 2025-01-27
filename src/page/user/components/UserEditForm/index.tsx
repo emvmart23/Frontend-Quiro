@@ -59,6 +59,7 @@ export default function UserEditForm({ setIsOpen, setIsPending, user }: Props) {
       queryClient.invalidateQueries("users");
       setIsOpen(false);
     } catch (error) {
+      console.log(error)
       toast({
         description: "Error al editar cuenta",
         variant: "destructive",

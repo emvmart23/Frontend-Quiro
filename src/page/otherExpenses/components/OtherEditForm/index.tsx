@@ -57,6 +57,7 @@ export default function OtherEditForm({
         });
       }
       queryClient.invalidateQueries("o");
+      queryClient.invalidateQueries("otherInHome");
       setIsPending(false);
       setIsOpen(false);
     } catch (error) {

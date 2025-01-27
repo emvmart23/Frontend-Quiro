@@ -26,18 +26,22 @@ import { columns } from "../managment/columns";
 interface Props {
   data: OtherExpenses[];
   isLoading: boolean;
+  lastBox: Box;
 }
 
-export default function OtherDataTable({ data, isLoading }: Props) {
+export default function OtherDataTable({ data, isLoading, lastBox }: Props) {
   const [sorting, setSorting] = React.useState<SortingState>([
     {
       id: "box_date",
       desc: true,
     },
   ]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
+    {
+      id: "box_date",
+      value: lastBox?.opening,
+    },
+  ]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
@@ -78,7 +82,7 @@ export default function OtherDataTable({ data, isLoading }: Props) {
           onChange={(event) =>
             table.getColumn("box_date")?.setFilterValue(event.target.value)
           }
-          className="max-w-[10rem]"
+          className="max-w-[10rem] shadow-lg"
         />
       </div>
       <div className="rounded-md border">

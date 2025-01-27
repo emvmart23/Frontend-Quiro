@@ -1,5 +1,6 @@
 import {
   ColumnFiltersState,
+  OnChangeFn,
   SortingState,
   VisibilityState,
   flexRender,
@@ -11,14 +12,7 @@ import {
 import { columns } from "../managment/columns";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/Input";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
 import { Button } from "@/components/ui/Button";
-import { ChevronDown } from "lucide-react";
 import { Skeleton } from "@/components/ui/Skeleton";
 import {
   Table,
@@ -28,15 +22,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/Table";
-import { format } from "date-fns";
 
 interface Props {
   data: Header[];
   isLoading: boolean;
-  user: User | null;
+  setColumnFilters: OnChangeFn<ColumnFiltersState>;
+  columnFilters: ColumnFiltersState;
 }
 
-export function OrdersOfUserDataTable({ data, isLoading, user }: Props) {
+export function OrdersOfUserDataTable({
+  data,
+  isLoading,
+  columnFilters,
+  setColumnFilters
+}: Props) {
   const [sorting, setSorting] = React.useState<SortingState>([
     {
       id: "id",
@@ -50,18 +49,7 @@ export function OrdersOfUserDataTable({ data, isLoading, user }: Props) {
     pageIndex: 0,
     pageSize: 6,
   });
-  const currentDate = format(new Date(), "yyyy-MM-dd");
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
-    {
-      id: "box_date",
-      value: currentDate,
-    },
-    {
-      id: "current_user",
-      value: user?.id,
-    },
-  ]);
-  
+
   const table = useReactTable({
     data,
     columns,
@@ -94,34 +82,8 @@ export function OrdersOfUserDataTable({ data, isLoading, user }: Props) {
           onChange={(event) =>
             table.getColumn("box_date")?.setFilterValue(event.target.value)
           }
-          className="w-40"
+          className="w-40 shadow-xl"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columnas <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <div className="rounded-md border">
         {isLoading ? (

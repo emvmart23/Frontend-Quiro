@@ -20,8 +20,8 @@ export default function OrdersProcessed() {
   });
 
   return (
-    <section>
-      <h1 className="text-3xl font-medium mb-7">Pedidos atendidos</h1>
+    <section className="flex flex-col gap-12 w-full">
+      <h1 className="text-[1.4rem] md:text-3xl font-medium">Pedidos atendidos</h1>
       <OrdersProcessedDataTable data={format ?? []} isLoading={isLoading} />
     </section>
   );

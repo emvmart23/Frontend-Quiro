@@ -13,7 +13,7 @@ export default function Units() {
 
   return (
     <section className="flex flex-col gap-8 w-full">
-        <h3 className="text-3xl">Unidades de medida</h3>
+        <h3 className="text-[1.4rem] md:text-3xl font-medium">Unidades de medida</h3>
         <div>
           <UnitActions />
         </div>

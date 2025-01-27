@@ -12,7 +12,7 @@ export default function UserActions () {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>Crear usuario</Button>
+        <Button className='w-32'>Crear usuario</Button>
       </DialogTrigger>
       <DialogContent className="gap-8">
         <DialogHeader>

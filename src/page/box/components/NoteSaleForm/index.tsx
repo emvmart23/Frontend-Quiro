@@ -85,6 +85,7 @@ export default function NoteSaleForm({
         queryClient.invalidateQueries("head");
         queryClient.invalidateQueries("otherInBox");
         queryClient.invalidateQueries("boxes");
+        queryClient.invalidateQueries("headInHome");
         setIsOpen(false);
         setIsPending(false);
       } else {
@@ -196,7 +197,7 @@ export default function NoteSaleForm({
           <Table className="">
             <TableHeader>
               <TableRow>
-                <TableHead className="pl-[0.5rem]">Metodo de pago</TableHead>
+                <TableHead className="pl-[0.5rem] w-40">Metodo de pago</TableHead>
                 <TableHead>Monto</TableHead>
                 <TableHead>Referencia</TableHead>
                 <TableHead>

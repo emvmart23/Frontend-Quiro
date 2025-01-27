@@ -43,7 +43,7 @@ export default function UserForm({ setIsPending, setIsOpen }: Props) {
       salary: "",
       password: "",
       password_confirmation: "",
-      role_id: 0,
+      role_id: 1,
     },
   });
 

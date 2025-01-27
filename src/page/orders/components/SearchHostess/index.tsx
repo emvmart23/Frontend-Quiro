@@ -19,7 +19,6 @@ import {
 import { useEffect, useState } from "react";
 import { getAttendance } from "@/helpers/getAttendance";
 import { getBoxes } from "@/helpers/getBoxes";
-import { ScrollArea } from "@/components/ui/ScrollArea";
 
 interface Props {
   value: number;
@@ -77,41 +76,39 @@ export default function SearchHostess({ value, setValue }: Props) {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput 
-            placeholder="Buscar anfitrionas..." 
+          <CommandInput
+            placeholder="Buscar anfitrionas..."
             value={searchTerm}
             onValueChange={setSearchTerm}
           />
           <CommandList>
             <CommandEmpty>Anfitriona no encontrada</CommandEmpty>
-            <CommandGroup>
-              <ScrollArea className="h-auto max-h-32">
-                {filteredHostess?.length > 0 ? (
-                  filteredHostess?.map(({ id, user_id, user }: Attendace) => (
-                    <CommandItem
-                      key={id}
-                      value={user}
-                      onSelect={() => {
-                        setValue(user_id);
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          value === user_id ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      {user}
-                    </CommandItem>
-                  ))
-                ) : (
-                  <CommandItem className="text-[0.7rem] font-semibold">
-                    <CircleAlert className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-                    No hay anfitrionas, primero toma asistencia
+            <CommandGroup className="h-auto">
+              {filteredHostess?.length > 0 ? (
+                filteredHostess?.map(({ id, user_id, user }: Attendace) => (
+                  <CommandItem
+                    key={id}
+                    value={user}
+                    onSelect={() => {
+                      setValue(user_id);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === user_id ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {user}
                   </CommandItem>
-                )}
-              </ScrollArea>
+                ))
+              ) : (
+                <CommandItem className="text-[0.7rem] font-semibold">
+                  <CircleAlert className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+                  No hay anfitrionas, primero toma asistencia
+                </CommandItem>
+              )}
             </CommandGroup>
           </CommandList>
         </Command>

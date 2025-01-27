@@ -6,14 +6,12 @@ import useTitle from "@/hooks/useTitle";
 
 export default function Customers() {
   const { data, isLoading } = useQuery("customers", getCustomer);
-  useTitle("Clientes")
+  useTitle("Clientes");
 
   return (
     <section className="flex flex-col gap-8 w-full">
-      <h3 className="text-3xl">Clientes</h3>
-      <div>
-        <CustomerActions />
-      </div>
+      <h3 className="text-[1.4rem] md:text-3xl font-medium">Clientes</h3>
+      <CustomerActions />
       <CustomerDataTable
         data={data ? data.customer : []}
         isLoading={isLoading}

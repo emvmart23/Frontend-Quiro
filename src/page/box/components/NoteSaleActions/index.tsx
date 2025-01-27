@@ -5,8 +5,6 @@ import { toast } from "@/hooks/useToast";
 import { useQueryClient } from "react-query";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDF from "../../Pdf/PdfNotes";
-import PdfTickets from "../../Pdf/PdfTickets";
-import { useAuth } from "@/hooks/useAuth";
 
 interface Props {
   setIsOpen: (value: boolean) => void;
@@ -14,7 +12,6 @@ interface Props {
 }
 
 export default function NoteSaleActions({ setIsOpen, header }: Props) {
-  const { user } = useAuth();
   const queryClient = useQueryClient();
 
   const cancelNote = async () => {
@@ -26,6 +23,7 @@ export default function NoteSaleActions({ setIsOpen, header }: Props) {
           variant: "success",
         });
         queryClient.invalidateQueries("headers");
+        queryClient.invalidateQueries("headInHome");
         setIsOpen(false);
       } else {
         toast({
@@ -51,18 +49,9 @@ export default function NoteSaleActions({ setIsOpen, header }: Props) {
         (Boolean(header.state_doc) === true ? (
           <NoteSaleFinish setIsOpen={setIsOpen} header={header} />
         ) : (
-          <>
-            <Button onClick={cancelNote} variant="destructive">
-              Anular nota de venta
-            </Button>
-            <Button className="bg-orange-500">PDF ticket</Button>
-            <PDFDownloadLink
-              document={<PdfTickets data={header} user={user} />}
-              fileName="anfitrionas.pdf"
-            >
-              {() => <Button className="w-full">Generar nota</Button>}
-            </PDFDownloadLink>
-          </>
+          <Button onClick={cancelNote} variant="destructive">
+            Anular nota de venta
+          </Button>
         ))}
     </>
   );

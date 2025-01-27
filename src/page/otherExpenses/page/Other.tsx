@@ -4,14 +4,23 @@ import OtherExpensesAction from "../components/OtherExpensesAction";
 import { getOtherExpenses } from "@/helpers/getOtherExpenses";
 import OtherDataTable from "../components/OtherDataTable";
 import { queryConfig } from "@/helpers/getQueryConfig";
+import { useBoxes } from "@/hooks/useBoxes";
 
 export default function Other() {
   const queries = useQueries([
     { queryKey: ["o"], queryFn: getOtherExpenses, ...queryConfig },
   ]);
-
   const [{ data: allOther, isLoading }] = queries;
+  const { data: allBoxes } = useBoxes();
 
+  const lastId = (allBoxes ? allBoxes.boxes : []).reduceRight(
+    (maxId: number, box: Box) => Math.max(maxId, box.id),
+    0
+  );
+
+  const lastBox = (allBoxes ? allBoxes.boxes : []).find(
+    (box: Box) => box.id === lastId
+  );
   useTitle("Productos");
 
   return (
@@ -21,6 +30,7 @@ export default function Other() {
       <OtherDataTable
         data={allOther ? allOther?.others : []}
         isLoading={isLoading}
+        lastBox={lastBox}
       />
     </section>
   );

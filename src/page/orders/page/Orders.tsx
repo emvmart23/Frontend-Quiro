@@ -21,12 +21,10 @@ import {
 import api from "@/service";
 import { toast } from "@/hooks/useToast";
 import { Loader2 } from "lucide-react";
-// import { useAuth } from "@/hooks/useAuth";
 import useTitle from "@/hooks/useTitle";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 
 export default function Orders() {
-  // const { user } = useAuth();
   const { data, isLoading } = useQuery("products", getProducts);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [formatOrder, setFormatOrder] = useState<Product[]>([]);
@@ -134,7 +132,7 @@ export default function Orders() {
       } finally {
         setIsPending(false);
       }
-    }, 4000);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -212,8 +210,8 @@ export default function Orders() {
           </div>
         </div>
       </div>
-      <div className=" flex gap-4 relative top-[2rem] md:top-[27rem]">
-        <ScrollArea className="h-96 p-8">
+      <div className="flex gap-4 relative top-[2rem] md:top-[27rem]">
+        <ScrollArea className="h-96 md:pt-8">
           <OrderAction
             isLoading={isLoading}
             setPendingOrders={setPendingOrders}

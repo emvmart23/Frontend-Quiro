@@ -20,7 +20,7 @@ export default function CategoryActions() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>Crear Categoria</Button>
+        <Button className="w-36">Crear Categoria</Button>
       </DialogTrigger>
       <DialogContent className="gap-8">
         <DialogHeader>

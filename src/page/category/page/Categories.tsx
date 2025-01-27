@@ -11,14 +11,12 @@ const getCategories = async () => {
 
 export default function Categories() {
   const { data, isLoading } = useQuery("categories", getCategories);
-  useTitle("Categorias")
+  useTitle("Categorias");
 
   return (
     <section className="flex flex-col gap-8 w-full">
-    <h3 className="text-3xl">Categorias</h3>
-      <div className="flex gap-4">
-        <CategoryActions />
-      </div>
+      <h3 className="text-[1.4rem] md:text-3xl font-medium">Categorias</h3>
+      <CategoryActions />
       <CategoryDataTable
         data={data ? data.category : []}
         isLoading={isLoading}

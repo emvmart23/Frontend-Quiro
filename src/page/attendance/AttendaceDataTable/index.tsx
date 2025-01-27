@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   ColumnFiltersState,
+  OnChangeFn,
   SortingState,
   VisibilityState,
   flexRender,
@@ -10,14 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
 import {
   Table,
   TableBody,
@@ -28,20 +22,23 @@ import {
 } from "@/components/ui/Table";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { columns } from "../managment/columns";
-import { format } from "date-fns";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 
 interface Props {
   data: Attendace[];
   isLoading: boolean;
+  setColumnFilters: OnChangeFn<ColumnFiltersState>;
+  columnFilters: ColumnFiltersState;
 }
 
-export default function AttendanceDataTable({ data, isLoading }: Props) {
+export default function AttendanceDataTable({
+  data,
+  isLoading,
+  columnFilters,
+  setColumnFilters
+}: Props) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
-    { id: "box_date", value: format(new Date(), "yyyy-MM-dd")}
-  ]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
@@ -67,55 +64,28 @@ export default function AttendanceDataTable({ data, isLoading }: Props) {
       columnFilters,
       columnVisibility,
       rowSelection,
-      pagination
+      pagination,
     },
   });
 
   return (
     <div className="w-full md:w-[90%] mx-auto">
       <div className="flex items-center py-4">
-        <div className="flex justify-between w-[53%]">
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label>Fecha de caja</Label>
-            <Input
-              type="date"
-              value={
-                (table.getColumn("box_date")?.getFilterValue() as string) ?? ""
-              }
-              onChange={(event) => {
-                table.getColumn("box_date")?.setFilterValue(event.target.value);
-              }}
-              className="max-w-[10rem]"
-            />
-          </div>
+        <div className="grid w-full max-w-sm items-center gap-y-2">
+          <Label>Fecha de caja</Label>
+          <Input
+            type="date"
+            value={
+              (table.getColumn("box_date")?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) => {
+              table.getColumn("box_date")?.setFilterValue(event.target.value);
+            }}
+            className="max-w-[10rem] shadow-lg"
+          />
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columnas <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
+
       <div className="rounded-md border">
         {isLoading ? (
           <Skeleton className="w-full h-[17rem]" />

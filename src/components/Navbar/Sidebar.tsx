@@ -1,24 +1,18 @@
 import NavLinks from "./NavLinks";
-import { links } from "./links";
 
 interface Props {
+  open: number | undefined;
+  setOpen : (value: undefined | number) => void;
   isExpanded: boolean;
   setIsExpanded: (value: boolean) => void;
 }
 
-export default function Sidebar({ isExpanded, setIsExpanded }: Props) {
+export default function Sidebar({ isExpanded, setIsExpanded, open, setOpen }: Props) {
   return (
     <nav className="mt-6">
-      <ul>
-        {links.map((link, index) => (
-          <NavLinks
-            key={index}
-            links={link}
-            isExpanded={isExpanded}
-            setIsExpanded={setIsExpanded}
-          />
-        ))}
-      </ul>
+        <ul>
+          <NavLinks isExpanded={isExpanded} setIsExpanded={setIsExpanded} open={open} setOpen={setOpen} />
+        </ul>
     </nav>
   );
 }

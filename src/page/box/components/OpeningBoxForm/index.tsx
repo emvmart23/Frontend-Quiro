@@ -73,7 +73,7 @@ export default function OpeningBoxForm({ setIsPending, setIsOpen }: Props) {
         setIsOpen(false);
       } catch (error) {
         toast({
-          description: "Error al crear cuenta",
+          description: "Error al crear caja",
           variant: "destructive",
         });
       } finally {

@@ -20,7 +20,7 @@ export default function CustomerActions() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>Crear Cliente</Button>
+        <Button className="w-32">Crear Cliente</Button>
       </DialogTrigger>
       <DialogContent className="gap-8">
         <DialogHeader>

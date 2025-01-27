@@ -48,6 +48,7 @@ export default function OtherForm({ setIsPending, setIsOpen }: Props) {
       }
       queryClient.invalidateQueries("o");
       queryClient.invalidateQueries("otherInBox");
+      queryClient.invalidateQueries("otherInHome");
       setIsOpen(false);
     } catch (error) {
       toast({

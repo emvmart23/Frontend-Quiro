@@ -13,9 +13,10 @@ import OutsideClick from "@/hooks/useDetectClickOut";
 export default function AppLayout() {
   const { user } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [open, setOpen] = useState<number | undefined>(undefined);
   const width = useBreakpointer();
   const ref = useRef<HTMLDivElement>(null);
-  const isClicked = OutsideClick(ref, setIsExpanded,isExpanded);
+  const isClicked = OutsideClick(ref, setIsExpanded, isExpanded);
 
   const btnUpdateMenuVisibility = () => {
     setIsExpanded(!isExpanded);
@@ -28,7 +29,7 @@ export default function AppLayout() {
   }, [width]);
 
   return (
-    <div className="w-full h-screen flex flex-col z-50">
+    <div className="w-full h-screen flex flex-col">
       <div className="bg-background sticky top-0 border-b-2 z-50">
         <div className="flex justify-between lg:justify-end items-center h-[4.6rem] px-8 md:px-20 min-w-[320px]">
           <Button
@@ -49,7 +50,7 @@ export default function AppLayout() {
           ref={ref}
           className={`${
             isClicked ? "w-[16rem]" : "w-[0rem]"
-          } lg:w-[15rem] origin-left transition-all duration-75 bg-background h-screen fixed top-0 border-r z-50`}
+          } lg:w-[15rem] origin-left transition-all duration-100 bg-background h-screen fixed top-0 border-r z-50`}
         >
           <Button
             onClick={btnUpdateMenuVisibility}
@@ -60,10 +61,10 @@ export default function AppLayout() {
           >
             <X />
           </Button>
-          <Sidebar isExpanded={isClicked} setIsExpanded={setIsExpanded} />
+          <Sidebar isExpanded={isClicked} setIsExpanded={setIsExpanded} open={open} setOpen={setOpen}/>
         </div>
       </div>
-      <div className="transition-all duration-200 mx-auto w-[80%] md:w-full lg:w-[77%] lg:ml-[14rem] md:pl-20 max-w-320 pt-10">
+      <div className="transition-all duration-200 mx-auto w-[80%] md:w-[88%] lg:w-[77%] lg:ml-[14rem] md:pl-12 xl:pl-24 max-w-320 pt-10">
         <Outlet />
       </div>
       <Toaster />

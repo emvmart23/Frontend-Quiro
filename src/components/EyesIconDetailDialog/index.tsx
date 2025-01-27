@@ -15,8 +15,8 @@ export default function OrdersAtendeedDetails({ data }: Props) {
       <DialogHeader>
         <DialogTitle>Productos atendidos</DialogTitle>
         <DialogDescription>
-          <span>
-            <strong>Anfitriona:</strong>
+          <span className="text-[0.9rem]">
+            <strong>Anfitriona: </strong>
             {data.hostess}
           </span>
         </DialogDescription>

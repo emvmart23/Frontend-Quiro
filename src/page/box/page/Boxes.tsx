@@ -17,8 +17,8 @@ export default function Boxes() {
   });
 
   return (
-    <section>
-      <h1 className="text-3xl font-medium mb-7">Cobranza</h1>
+    <section className="flex flex-col gap-8 w-full">
+      <h1 className="text-[1.4rem] md:text-3xl font-medium">Cobranza</h1>
       <NoteSaleDataTable data={formatHeader} isLoading={isLoading} />
     </section>
   );

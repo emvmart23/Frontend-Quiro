@@ -4,9 +4,10 @@ import { Check, Minus, Pencil, Plus } from "lucide-react";
 import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { toast } from "@/hooks/useToast";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 interface Props {
-  pendingOrders: Product[]; 
+  pendingOrders: Product[];
   isLoading: boolean;
   setPendingOrders: (value: Product[]) => void;
   filteredProducts: Product[];
@@ -21,6 +22,7 @@ export default function OrderAction({
   filteredProducts,
   formatOrders,
   setFormatOrder,
+  isLoading,
 }: Props) {
   const [editedPrices, setEditedPrices] = useState<{
     [id: number]: number | string;
@@ -84,79 +86,92 @@ export default function OrderAction({
 
   return (
     <div className="mx-auto">
-      {filteredProducts.length === 0 ? (
+      {filteredProducts.length !== 0 ? (
+        isLoading ? (
+          <div className="flex gap-x-2">
+            {[1, 2, 3].map((_, index) => (
+              <Skeleton
+                key={index}
+                className="h-[125px] w-[250px] rounded-xl bg-gray-300"
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 md:w-[88%] content-center mx-auto py-4 px-5 md:p-4">
+            {filteredProducts.map((product) => {
+              const cardById = product.id === editingProductId;
+              return (
+                <Card
+                  key={product.id}
+                  className="relative flex flex-col justify-center items-center md:p-4 h-36 max-w-[230px] border-gray-700 border-2 mx-auto"
+                >
+                  <CardContent>
+                    <Input
+                      value={
+                        editedPrices[product.id] !== undefined
+                          ? editedPrices[product.id]?.toString()
+                          : product.price.toString()
+                      }
+                      disabled={!edit || !cardById}
+                      onChange={(e) => handlePriceChange(e, product.id)}
+                      className={`${
+                        cardById
+                          ? edit
+                            ? "shadow-xl h-[3rem]"
+                            : "text-black"
+                          : ""
+                      } transition-all duration-500 relative text-center`}
+                      pattern="^\d{1,9}$"
+                      onInput={(e) =>
+                        (e.currentTarget.value = e.currentTarget.value.replace(
+                          /[^\d]/g,
+                          ""
+                        ))
+                      }
+                    />
+                  </CardContent>
+                  <CardTitle className="cursor-pointer text-center text-[1.2rem]">
+                    {product.name}
+                  </CardTitle>
+                  <Button
+                    disabled={edit}
+                    className="rounded-full p-2 absolute -right-4 w-8 h-8"
+                    onClick={() => addOrder(product.id)}
+                  >
+                    <Plus className="" />
+                  </Button>
+                  <Button
+                    disabled={edit}
+                    className="rounded-full p-2 absolute -left-4 w-8 h-8"
+                    onClick={() => deleteOneOrder(product.id)}
+                  >
+                    <Minus className="" />
+                  </Button>
+                  {edit && cardById ? (
+                    <Button
+                      type="submit"
+                      form="update-orders-form"
+                      className="absolute -top-3 -right-3 rounded-full w-8 h-8 p-2 bg-green-600 hover:bg-green-600"
+                      onClick={() => toggleEdit(product.id)}
+                    >
+                      <Check className="w-full h-full" />
+                    </Button>
+                  ) : (
+                    <Button
+                      className="absolute -top-4 -right-4 rounded-full w-10 h-10 p-2"
+                      onClick={() => toggleEdit(product.id)}
+                    >
+                      <Pencil className="w-full h-full" />
+                    </Button>
+                  )}
+                </Card>
+              );
+            })}
+          </div>
+        )
+      ) : (
         <div className="h-52 flex justify-center items-center font-medium">
           No hay resultados
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 w-[88%] content-center mx-auto p-3 md:p-4">
-          {filteredProducts.map((product) => {
-            const cardById = product.id === editingProductId;
-            return (
-              <Card
-                key={product.id}
-                className="relative flex flex-col justify-center items-center md:p-4 h-36 max-w-[230px] border-gray-700 border-2 mx-auto"
-              >
-                <CardContent>
-                  <Input
-                    value={
-                      editedPrices[product.id] !== undefined
-                        ? editedPrices[product.id]?.toString()
-                        : product.price.toString()
-                    }
-                    disabled={!edit || !cardById}
-                    onChange={(e) => handlePriceChange(e, product.id)}
-                    className={`${
-                      cardById
-                        ? edit
-                          ? "shadow-xl h-[3rem]"
-                          : "text-black"
-                        : ""
-                    } transition-all duration-500 relative text-center`}
-                    pattern="^\d{1,9}$"
-                    onInput={(e) =>
-                      (e.currentTarget.value = e.currentTarget.value.replace(
-                        /[^\d]/g,
-                        ""
-                      ))
-                    }
-                  />
-                </CardContent>
-                <CardTitle className="cursor-pointer text-center text-[1.2rem]">{product.name}</CardTitle>
-                <Button
-                  disabled={edit}
-                  className="rounded-full p-2 absolute -right-4 w-8 h-8"
-                  onClick={() => addOrder(product.id)}
-                >
-                  <Plus className="" />
-                </Button>
-                <Button
-                  disabled={edit}
-                  className="rounded-full p-2 absolute -left-4 w-8 h-8"
-                  onClick={() => deleteOneOrder(product.id)}
-                >
-                  <Minus className="" />
-                </Button>
-                {edit && cardById ? (
-                  <Button
-                    type="submit"
-                    form="update-orders-form"
-                    className="absolute -top-3 -right-3 rounded-full w-8 h-8 p-2 bg-green-600 hover:bg-green-600"
-                    onClick={() => toggleEdit(product.id)}
-                  >
-                    <Check className="w-full h-full" />
-                  </Button>
-                ) : (
-                  <Button
-                    className="absolute -top-4 -right-4 rounded-full w-10 h-10 p-2"
-                    onClick={() => toggleEdit(product.id)}
-                  >
-                    <Pencil className="w-full h-full" />
-                  </Button>
-                )}
-              </Card>
-            );
-          })}
         </div>
       )}
     </div>

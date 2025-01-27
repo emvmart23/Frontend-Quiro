@@ -9,7 +9,7 @@ import OpeningBoxes from "@/page/box/page/OpeningBox";
 import MethodsPayments from "@/page/methodPayments/page/MethodsPayments";
 import Categories from "@/page/category/page/Categories";
 import Customers from "@/page/customer/page/Customers";
-import Dashboard from "@/page/home/Dashboard";
+import Dashboard from "@/page/home/page/Dashboard";
 import Orders from "@/page/orders/page/Orders";
 import Products from "@/page/product/page/Products";
 import Roles from "@/page/role/page/Roles";
@@ -24,9 +24,9 @@ const appRouter = [
   {
     path: "/",
     element: (
-      <ProtectedRoute>
+      //<ProtectedRoute>
         <AppLayout />
-      </ProtectedRoute>
+      //</ProtectedRoute>
     ),
     children: [
       {

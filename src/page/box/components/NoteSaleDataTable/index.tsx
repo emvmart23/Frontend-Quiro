@@ -10,14 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
 import {
   Table,
   TableBody,
@@ -114,19 +107,19 @@ export default function NoteSaleDataTable({ data, isLoading }: Props) {
                 table.getColumn("state_doc")?.setFilterValue("00");
             }}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full shadow-lg">
               <SelectValue placeholder="Filtrar por estado..." />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="1">Normal</SelectItem>
+                <SelectItem value="1">En proceso</SelectItem>
                 <SelectItem value="0">Finalizado</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
           <Combobox
             heading={"Mozos"}
-            className="min-w-[15rem]"
+            className="min-w-[15rem] shadow-lg"
             selectItemMsg="Filtrar mozo"
             data={formatUsers(users, 7)}
             onSelect={(value) => table.getColumn("mozo")?.setFilterValue(value)}
@@ -144,35 +137,9 @@ export default function NoteSaleDataTable({ data, isLoading }: Props) {
             onChange={(event) =>
               table.getColumn("created_at")?.setFilterValue(event.target.value)
             }
-            className="min-w-[10rem] text-center"
+            className="min-w-[10rem] text-center shadow-lg"
           />
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-full max-w-[7.5rem]">
-              Columnas <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <div className="rounded-md border">
         {isLoading ? (

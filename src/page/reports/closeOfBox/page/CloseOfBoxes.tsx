@@ -125,7 +125,7 @@ export default function CloseOfBoxes() {
   }, [presentUsers]);
 
   return (
-    <section className="mr-4">
+    <section className="md:mr-8">
       <h1 className="text-[1.4rem] md:text-2xl font-medium mb-5">
         Reporte de cierre de cajas
       </h1>

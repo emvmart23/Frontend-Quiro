@@ -67,7 +67,7 @@ export const columns: ColumnDef<Header>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Fecha de emision
+          Fecha de Caja
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -138,15 +138,11 @@ export const columns: ColumnDef<Header>[] = [
       );
     },
     cell: ({ row }) => {
+      const value = row.getValue("state") as number;
       const isActive =
-        Boolean(row.getValue("state")) === true ? "No atendido" : "Atendido";
+      value !== null ? Boolean(row.getValue("state")) === true ? "No atendido" : "Atendido" : "Anulado"
       return <div>{isActive}</div>;
     },
-  },
-  {
-    accessorKey: "current_user",
-    header: () => { },
-    cell: ({ row }) =>  <div className="hidden">{row.getValue("current_user")}</div>
   },
   {
     id: "actions",

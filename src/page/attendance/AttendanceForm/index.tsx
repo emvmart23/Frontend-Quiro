@@ -89,6 +89,7 @@ export default function AttendanceForm({ setIsOpen, lastBox }: Props) {
       try {
         const { status } = await api.patch("/attendances/update", users);
         queryClient.invalidateQueries("Attendance");
+        queryClient.invalidateQueries("attendInHome");
         if (status == 200) {
           toast({
             description: "Asistencia actualizada",
@@ -98,7 +99,6 @@ export default function AttendanceForm({ setIsOpen, lastBox }: Props) {
         setIsOpen(false);
         setIsPending(false);
       } catch (error) {
-        console.log(error);
         toast({
           description: "Error al actualizar",
           variant: "destructive",
@@ -115,6 +115,7 @@ export default function AttendanceForm({ setIsOpen, lastBox }: Props) {
           });
           setIsOpen(false);
           queryClient.invalidateQueries("Attendance");
+          queryClient.invalidateQueries("attendInHome");
           setIsPending(false);
         } else {
           toast({

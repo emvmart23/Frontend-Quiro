@@ -86,6 +86,7 @@ export default function OrdersProcessedDataTable({ data, isLoading }: Props) {
           heading={"Anfitriones"}
           selectItemMsg="Filtra por anfitriona"
           data={formatUsers(users, 4)}
+          className="shadow-lg"
           onSelect={(value) =>
             table.getColumn("hostess")?.setFilterValue(value)
           }
@@ -97,11 +98,11 @@ export default function OrdersProcessedDataTable({ data, isLoading }: Props) {
           }
         />
         <Combobox
-          className="min-w-[15rem]"
           heading="Mozos"
           selectItemMsg="Filtra por mozo"
           data={formatUsers(users, 7)}
           onSelect={(value) => table.getColumn("mozo")?.setFilterValue(value)}
+          className="min-w-[15rem] shadow-lg"
           tabelValue={
             (table.getColumn("mozo")?.getFilterValue() as string) ?? ""
           }
@@ -116,7 +117,7 @@ export default function OrdersProcessedDataTable({ data, isLoading }: Props) {
           onChange={(event) =>
             table.getColumn("created_at")?.setFilterValue(event.target.value)
           }
-          className="min-w-[10]"
+          className="min-w-[10] shadow-lg text-center"
         />
       </div>
       <div className="rounded-md border">

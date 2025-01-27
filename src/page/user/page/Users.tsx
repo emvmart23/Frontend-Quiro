@@ -7,13 +7,9 @@ export default function Users() {
   const { data, isLoading } = useQuery("users", getUsers);
   return (
     <section className="flex flex-col gap-8 w-full">
-      <h3 className="text-3xl">Usuarios</h3>
-      <div className="flex gap-4">
-        <UserActions />
-      </div>
-      <div>
-        <UserDataTable data={data ? data.user : []} isLoading={isLoading} />
-      </div>
+      <h3 className="text-[1.4rem] md:text-3xl font-medium">Usuarios</h3>
+      <UserActions />
+      <UserDataTable data={data ? data.user : []} isLoading={isLoading} />
     </section>
   );
 }

@@ -29,16 +29,19 @@ const sizes = {
 
 export const links = [
   {
+    id:1,
     icon: <LayoutDashboard size={sizes.menu} />,
     title: "Dashboard",
     path: "/",
   },
   {
+    id:2,
     icon: <ShoppingBasket size={sizes.menu} />,
     title: "Productos",
     path: "/productos",
   },
   {
+    id:3,
     icon: <ListOrdered size={sizes.menu} />,
     title: "Pedidos",
     childrens: [
@@ -55,16 +58,19 @@ export const links = [
     ],
   },
   {
+    id:4,
     icon: <Users size={sizes.menu} />,
     title: "Clientes",
     path: "/clientes",
   },
   {
+    id:5,
     icon: <SlidersHorizontal size={sizes.menu} />,
     title: "Categorias",
     path: "/categorias",
   },
   {
+    id:6,
     icon: <Settings size={sizes.menu} />,
     title: "Configuracion",
     childrens: [
@@ -91,11 +97,13 @@ export const links = [
     ],
   },
   {
+    id:7,
     icon: <AlarmClock size={sizes.menu} />,
     title: "Asistencia",
     path: "/asistencia",
   },
   {
+    id:8,
     icon: <Boxes size={sizes.menu} />,
     title: "Cajero",
     childrens: [
@@ -112,6 +120,7 @@ export const links = [
     ],
   },
   {
+    id:9,
     icon: <Wine size={sizes.menu} />,
     title: "Barman",
     childrens: [
@@ -128,11 +137,13 @@ export const links = [
     ],
   },
   {
+    id:10,
     icon: <AlignStartVertical size={sizes.menu} />,
     title: "Otros gastos",
     path: "/otros-gastos",
   },
   {
+    id:11,
     icon: <ClipboardMinus size={sizes.menu} />,
     title: "Reportes",
     childrens: [

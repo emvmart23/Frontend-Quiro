@@ -15,7 +15,7 @@ export default function Roles() {
 
   return (
     <section className="flex flex-col gap-8 w-full">
-      <h3 className="text-3xl">Roles</h3>
+      <h3 className="text-[1.4rem] md:text-3xl font-medium">Roles</h3>
       <RoleActions />
       <RoleDataTable data={data ? data.role : []} isLoading={isLoading} />
     </section>

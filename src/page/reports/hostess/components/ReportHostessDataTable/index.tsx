@@ -110,7 +110,7 @@ export default function ReportHostessDataTable({
                 table.getColumn("hostess_role")?.setFilterValue(" ");
             }}
           >
-            <SelectTrigger className="md:w-28">
+            <SelectTrigger className="md:w-28 shadow-lg">
               <SelectValue placeholder="Filtrar por cargo..." />
             </SelectTrigger>
             <SelectContent>
@@ -122,7 +122,7 @@ export default function ReportHostessDataTable({
             </SelectContent>
           </Select>
           <Combobox
-            className="md:w-42"
+            className="md:w-42 shadow-lg"
             heading={"Trabajadoras"}
             selectItemMsg="Buscar trabajadora.."
             data={formatUsers(users, 4, 8)}
@@ -144,7 +144,7 @@ export default function ReportHostessDataTable({
             onChange={(event) =>
               table.getColumn("box_date")?.setFilterValue(event.target.value)
             }
-            className="w-40"
+            className="w-40 shadow-lg"
           />
         </div>
         <DropdownMenu>
