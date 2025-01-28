@@ -38,14 +38,16 @@ export default function AppLayout() {
           >
             <Menu />
           </Button>
+          <Navbar/>
           <div className="flex justify-between items-center gap-2 md:gap-4">
             <span className="font-semibold text-[0.9rem] md:text-[1rem]">
               Bienvenido {user?.user}
             </span>
             <UserDropDown />
           </div>
+          
         </div>
-        <Navbar />
+        
       </div>
       <div className="transition-all duration-200 mx-auto w-[80%] md:w-[88%] lg:w-[77%] lg:ml-[14rem] md:pl-12 xl:pl-24 max-w-320 pt-10">
         <Outlet />

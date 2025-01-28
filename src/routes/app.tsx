@@ -105,6 +105,26 @@ const appRouter = [
         path: "*",
         element: <RouteNotFound/>
       },
+      /* {
+        path: "/",
+        element: <Inicio />,
+      },
+      {
+        path: "/",
+        element: <Servicios />,
+      },
+      {
+        path: "/",
+        element: <SobreNosotros />,
+      },
+      {
+        path: "/",
+        element: <Productos />,
+      },
+      {
+        path: "/",
+        element: <Contactos />,
+      }, */
     ],
   },
 ];
