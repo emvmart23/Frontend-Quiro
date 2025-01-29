@@ -24,7 +24,7 @@ export default function SidebarItems() {
       >
         <div
           className={`${
-            isActive ? " bg-foreground dark:text-black text-white" : ""
+            isActive ? " bg-primary dark:text-black text-white" : ""
           } justify-center p-3 w-full group-hover:bg-primary group-hover:text-background text-foreground text-sm rounded transition-all duration-75 origin-left flex items-center gap-5`}
         >
           {link.title}
