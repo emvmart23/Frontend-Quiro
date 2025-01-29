@@ -4,7 +4,7 @@ import { Heart } from "lucide-react"
 export const CardsProducts = () => {
     return (
         <div>
-            <Card className="bg-[url('/public/images/image1.jpg')] bg-cover bg-center justify-center">
+            <Card className="bg-[url('/public/images/image1.jpg')] bg-cover bg-center ">
                 <CardContent className="flex">
                 <p>Mascarilla Facial</p>
                 <p>$29.99</p>

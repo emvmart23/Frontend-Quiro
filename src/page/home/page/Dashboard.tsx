@@ -1,134 +1,33 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
-import { queryConfig } from "@/helpers/getQueryConfig";
-import { getBoxes } from "@/helpers/getBoxes";
-import { getAttendance } from "@/helpers/getAttendance";
-import { useQueries } from "react-query";
-import { BringToFront, ShoppingBag, Users } from "lucide-react";
-import { getOtherExpenses } from "@/helpers/getOtherExpenses";
-import { getHeaders } from "@/helpers/getHeaders";
-import Overview from "../components/Overview/index";
-import { RecentSales } from "../components/RecentSales";
-import useTitle from "@/hooks/useTitle";
-import { getUsers } from "@/helpers/users/getUsers";
+import { Button } from "@/components/ui/Button";
+import { Slider } from "../components/slider";
+import { CardsServices } from "../components/CardsServices";
+import { Hero } from "../components/Hero";
+import { CardsProducts } from "../components/CardsProducts";
 
 export default function Dashboard() {
-  const queries = useQueries([
-    { queryKey: ["boxInHome"], queryFn: getBoxes, ...queryConfig },
-    { queryKey: ["attendInHome"], queryFn: getAttendance, ...queryConfig },
-    { queryKey: ["otherInHome"], queryFn: getOtherExpenses, ...queryConfig },
-    { queryKey: ["headInHome"], queryFn: getHeaders, ...queryConfig },
-    { queryKey: ["usersInHome"], queryFn: getUsers, ...queryConfig },
-  ]);
 
-  const [
-    { data: allBoxes },
-    { data: allAttendances },
-    { data: allOthers },
-    { data: allHeaders },
-    { data: allUsers },
-  ] = queries;
-
-  const lastId = (allBoxes ? allBoxes.boxes : []).reduceRight(
-    (maxId: number, box: Box) => Math.max(maxId, box.id),
-    0
-  );
-
-  const lastBox: Box = (allBoxes ? allBoxes.boxes : [])?.find(
-    (box: Box) => box.id === lastId
-  );
-
-  const totalAttendance: Attendace[] = (
-    allAttendances ? allAttendances?.attendances : []
-  )?.filter(
-    (atend: Attendace) =>
-      atend.box_date === lastBox?.opening && Number(atend.present) === 1
-  ).length;
-
-  const getTotalOfExpenses = (allOthers ? allOthers.others : [])
-    ?.filter((other: OtherExpenses) => other?.box_date === lastBox?.opening)
-    ?.reduce((total: number, curr: OtherExpenses) => total + curr?.total, 0);
-
-  const pendingOrders = (state: number) =>
-    (allHeaders ? allHeaders.header : [])?.filter(
-      (head: Header) =>
-        head.box_date === lastBox?.opening && head.state_doc === state
-    );
-
-  const lastFiveBoxes = (allBoxes ? allBoxes.boxes : []).slice(
-    allBoxes?.boxes?.length - 5
-  );
-
-  const data = [
-    {
-      title: "Usuarios asistidos",
-      total: totalAttendance ?? 0,
-      description:
-        "Número de usuarios atendidos hoy, importante para evaluar la atención y flujo de clientes en el local.",
-      icon: <Users />,
-    },
-    {
-      title: "Numero de usuarios",
-      total: allUsers?.user.length ?? 0,
-      description:
-        "La aplicacion esta siendo utilizada y puede soportar multiples ordenes y pedidos al mismo tiempo.",
-    },
-    {
-      title: "Notas pendientes",
-      total: pendingOrders(1).length ?? 0,
-      description:
-        "Si existe notas de venta pendientes no podras continuar con una nueva caja",
-      icon: <ShoppingBag />,
-    },
-    {
-      title: "Otros gastos",
-      total: getTotalOfExpenses ?? 0,
-      description: "Gastos fuera de lo planeado dependiendo de lo solicitado",
-      icon: <BringToFront />,
-    },
-  ];
-
-  useTitle("Dashboard");
 
   return (
-    <section className="">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-28">
-        {data.map((d, index) => (
-          <Card key={index}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{d.title}</CardTitle>
-              {d.icon}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold mb-2">{d.total}</div>
-              <p className="text-xs text-muted-foreground">{d.description}</p>
-            </CardContent>
-          </Card>
-        ))}
+    <section className="w-full">
+      <Slider />
+      <div className="flex flex-col w-full justify-center items-center text-center gap-[24px] my-[50px]">
+        <div>
+          <h1 className="font-bold text-xl">Servicios principales</h1>
+          <p className="text-[16px] text-gray-400">Los mejores servicios a tu disposición</p>
+        </div>
+        <div>
+          <Button className="font-bold text-black bg-white border-2 border-black w-[162px] h-[54px] hover:text-white">Ver más servicios</Button>
+        </div>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle>Cajas mas recientes</CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-            <Overview lastFiveBoxes={lastFiveBoxes} />
-          </CardContent>
-        </Card>
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Ventas recientes</CardTitle>
-            <CardDescription>Tienes 5 ventas</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <RecentSales pendingOrders={pendingOrders(0)} />
-          </CardContent>
-        </Card>
+      <div>
+        <CardsServices />
+      </div>
+      <div>
+        <Hero />
+      </div>
+      <div className="px-[64px] py-[50px]">
+      <h1 className="underline decoration-red-500 decoration-4 underline-offset-8 text-[32px]">Las mejores ofertas en <span className="font-bold text-red-600">Productos</span></h1>
+        <CardsProducts />
       </div>
     </section>
   );
