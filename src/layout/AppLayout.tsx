@@ -49,7 +49,7 @@ export default function AppLayout() {
         </div>
         
       </div>
-      <div className="transition-all duration-200 mx-auto w-[80%] md:w-[88%] lg:w-[77%] lg:ml-[14rem] md:pl-12 xl:pl-24 max-w-320 pt-10">
+      <div className="transition-all duration-200 mx-auto w-full max-w-320">
         <Outlet />
       </div>
       <Toaster />
