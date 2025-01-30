@@ -30,12 +30,12 @@ export const Hero = () => {
     ];
 
     return(
-        <div className="lg:flex w-full bg-black p-[48px] justify-center">
-            <div className="min-h-[300px] mb-8 lg:mb-0">
+        <div className="lg:flex w-full bg-primary p-[48px] justify-center">
+            <div className="min-h-[300px] mb-8 lg:mb-0 ">
                 <img 
                     src="/public/images/image1.jpg" 
                     alt="Hero" 
-                    className="w-full h-full object-cover min-h-[300px] md:min-h-[400px] lg:min-h-[300px] lg:max-w-[300px]"
+                    className="rounded-[20px] w-full h-full object-cover min-h-[300px] md:min-h-[400px] lg:min-h-[300px] lg:max-w-[300px]"
                 />
             </div>
             <div className="lg:w-1/2 flex justify-center items-center">
