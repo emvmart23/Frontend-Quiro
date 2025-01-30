@@ -26,10 +26,10 @@ export const CardsServices = () => {
     ];
 
     return (
-        <div className="flex justify-center w-full px-[20px] lg:px-[64px] sm:px-[64px] pb-[50px]">
+        <div className="flex justify-center w-full px-[5px] lg:px-[64px] sm:px-[64px] pb-[50px]">
             <div className="grid grid-cols-1 md:grid-cols-3 px-4 gap-[8px] md:gap-[32px] mx-auto">
                 {services.map((service) => (
-                    <Card key={service.id} className="w-full  bg-black text-white rounded-[20px] text-center">
+                    <Card key={service.id} className="w-full  bg-primary text-white rounded-[20px] text-center">
                         <div className="w-full h-[260px] overflow-hidden rounded-t-[20px]">
                             <img
                                 src={service.url}
