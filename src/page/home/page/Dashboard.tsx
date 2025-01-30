@@ -3,32 +3,36 @@ import { Slider } from "../components/slider";
 import { CardsServices } from "../components/CardsServices";
 import { Hero } from "../components/Hero";
 import { CardsProducts } from "../components/CardsProducts";
+import { CardsCommets } from "../components/CardsComments";
 
 export default function Dashboard() {
 
 
   return (
-    <section className="w-full">
+    <>
       <Slider />
-      <div className="flex flex-col w-full justify-center items-center text-center gap-[24px] my-[50px]">
+      <section className="flex flex-col w-full justify-center items-center text-center gap-[24px] my-[50px]">
         <div>
           <h1 className="font-bold text-xl">Servicios principales</h1>
-          <p className="text-[16px] text-gray-400">Los mejores servicios a tu disposición</p>
+          <p className="text-[16px] text-muted-foreground">Los mejores servicios a tu disposición</p>
         </div>
         <div>
-          <Button className="font-bold text-black bg-white border-2 border-black w-[162px] h-[54px] hover:text-white">Ver más servicios</Button>
+          <Button className="font-bold text-primary bg-white border-2 border-primary w-[162px] h-[54px] hover:text-white">Ver más servicios</Button>
         </div>
-      </div>
-      <div>
+      </section>
+      <section>
         <CardsServices />
-      </div>
-      <div>
+      </section>
+      <section>
         <Hero />
-      </div>
-      <div className="px-[64px] py-[50px]">
-      <h1 className="underline decoration-red-500 decoration-4 underline-offset-8 text-[32px]">Las mejores ofertas en <span className="font-bold text-red-600">Productos</span></h1>
+      </section>
+      <section className="px-[15px] py-[50px]">
+        <h1 className="ml-[10px] lg:ml-[188px] underline decoration-primary decoration-4 underline-offset-8 text-[18px] lg:text-[32px] font-bold">Las mejores ofertas en <span className=" text-primary">Productos</span></h1>
         <CardsProducts />
-      </div>
-    </section>
+      </section>
+      <section className="bg-gray-400">
+       <CardsCommets/>
+      </section>
+    </>
   );
 }
