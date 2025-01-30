@@ -1,0 +1,144 @@
+.curve-footer {
+  box-shadow: -8px 4px 0 0 rgba(22, 110, 99, 1);
+  background: transparent;
+}
+
+.curve-top {
+  box-shadow: 4px -8px 0 0 rgba(22, 110, 99, 1);
+  background: transparent;
+}
+
+.animated-card {
+  width: 15rem;
+  height: 24rem;
+}
+
+.animated-card .button-bag {
+  transform: scale(0);
+}
+
+.details-container {
+  display: none;
+}
+
+.animated-card:hover .card-content {
+  background-color: #d9d9d9;
+  transition: background-color 1s ease;
+}
+
+.animated-card:not(:hover) .card-content {
+  background-color: transparent;
+  transition: background-color 1s ease;
+}
+
+.animated-card:hover .button-bag {
+  animation: button 1s forwards
+  cubic-bezier(0.25, 1, 0.5, 1);
+  animation-delay: 0.5s;
+}
+
+.animated-card:hover .info {
+  width: inherit;
+}
+
+.animated-card:hover .label-container {
+  align-self: flex-start;
+}
+
+.animated-card:hover .curve-footer {
+  animation: curve-footer 1s, transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+  animation-duration: 300s;
+}
+
+@keyframes curve-footer {
+  0% {
+    display: none;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    width:calc(-100%);
+    transform: scale(0.9) translateY(15px);
+    display: none;
+  }
+}
+
+@keyframes button {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+    color: transparent;
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes label {
+  0% {
+    transform: translateY(0rem);
+  }
+
+  50% {
+    display: block;
+    transform: translateY(-1rem);
+  }
+
+  70%{
+    background-color: transparent;
+  }
+
+  90% {
+    transform: translateY(-2);
+    background-color: transparent;
+  }
+
+  100% {
+    transform: translateY(0);
+    background-color: transparent;
+  }
+}
+
+@keyframes title {
+  0% {
+    opacity: 1;
+    display: none;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes details-container {
+  0% {
+    opacity: 0;
+    display: none;
+  }
+
+  100% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 1;
+    display: block;
+  }
+}
+
+.animated-card:hover .label {
+  animation: label 1s forwards cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.animated-card:hover .title {
+  animation: title 1s forwards cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.animated-card:hover .details-container {
+  display: block;
+  animation: details-container 1s forwards cubic-bezier(0.25, 1, 0.5, 1);
+}

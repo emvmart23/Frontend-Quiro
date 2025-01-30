@@ -1,4 +1,4 @@
-import ProtectedRoute from "@/components/ProtectedRoute";
+//import ProtectedRoute from "@/components/ProtectedRoute";
 import RouteNotFound from "@/components/RouteNotFound";
 import AppLayout from "@/layout/AppLayout";
 import Attendance from "@/page/attendance/page/Attendance";
@@ -19,6 +19,7 @@ import OrdersOfUser from "@/page/orders/page/OrdersOfUser";
 import ReportHostess from "@/page/reports/hostess/page/ReportHostess";
 import CloseOfBoxes from "@/page/reports/closeOfBox/page/CloseOfBoxes";
 import Other from "@/page/otherExpenses/page/Other";
+import Services from "@/page/services/page/Services";
 
 const appRouter = [
   {
@@ -108,12 +109,12 @@ const appRouter = [
       /* {
         path: "/",
         element: <Inicio />,
-      },
+      },*/
       {
-        path: "/",
-        element: <Servicios />,
+        path:"/services",
+        element:<Services/>
       },
-      {
+      /*{
         path: "/",
         element: <SobreNosotros />,
       },
