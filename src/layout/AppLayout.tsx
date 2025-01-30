@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import useBreakpointer from "@/hooks/useBreackpointer";
 import Navbar from "@/components/Navbar";
+import { NavToggle } from "@/components/Navbar/NavToggle";
 // import OutsideClick from "@/hooks/useDetectClickOut";
 
 export default function AppLayout() {
@@ -31,13 +32,15 @@ export default function AppLayout() {
     <div className="w-full h-screen flex flex-col">
       <div className="bg-background sticky top-0 border-b-2 z-50">
         <div className="flex justify-between lg:justify-end items-center h-[4.6rem] px-8 md:px-20 min-w-[320px]">
-          <Button
+          {/* <Button
             variant={"outline"}
             onClick={btnUpdateMenuVisibility}
             className="lg:hidden z-50"
           >
             <Menu />
-          </Button>
+          </Button> */}
+
+          <NavToggle/>
           <Navbar/>
           <div className="flex justify-between items-center gap-2 md:gap-4">
             <span className="font-semibold text-[0.9rem] md:text-[1rem]">

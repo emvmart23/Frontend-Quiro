@@ -1,0 +1,20 @@
+@media screen and (max-width: 768px) {
+  .mySwiper {
+    max-width: 90%;
+  }
+
+  /* Ajustar botones de navegación */
+  .mySwiper .swiper-button-prev, 
+  .mySwiper .swiper-button-next {
+    box-shadow: 1px 0px 5px 0px #8C8C8C;
+  }
+
+  .mySwiper .swiper-button-prev::after {
+    margin-left: 3px;
+
+  }
+
+  .mySwiper .swiper-button-next::after {
+    margin-left: -3px;
+  }
+}

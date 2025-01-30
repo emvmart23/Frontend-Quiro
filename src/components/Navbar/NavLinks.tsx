@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { links } from "./links";
+import { links } from "./Links";
 
 // interface Props {
 //   setIsExpanded: (value: boolean) => void;
