@@ -7,12 +7,12 @@ import {
   //CardTitle,
 } from "@/components/ui/Card";
 
-import { ShoppingBag } from "lucide-react";
 import "@/page/services/styles/animated-card.css";
+import ModalService from "./ModalService";
 
 type CardServiceProps = {
   title: string,
-  description: string,
+  description?: string,
   price: number,
   image: string,
 }
@@ -35,18 +35,7 @@ export default function CardService({title, description, price, image}:CardServi
         gap-4 rounded-lg h-full
       ">
 
-        <div className="button-bag
-         self-end justify-end place-items-end w-full"
-        >
-          <div className="self-end flex flex-row justify-end">
-            <div className="curve-top w-8 h-8 rounded-tr-2xl"></div>
-            <a className="bg-primary px-3 py-3 rounded-bl-2xl cursor-pointer"
-            >
-              <ShoppingBag className="h-8 w-8" />
-            </a>
-          </div>
-          <div className="curve-top self-end w-8 h-8 rounded-tr-2xl"></div>
-        </div>
+        <ModalService title={title} image={image} price={price} />
 
         <div className="info-container h-full">
 
