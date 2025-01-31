@@ -20,6 +20,7 @@ import ReportHostess from "@/page/reports/hostess/page/ReportHostess";
 import CloseOfBoxes from "@/page/reports/closeOfBox/page/CloseOfBoxes";
 import Other from "@/page/otherExpenses/page/Other";
 import Services from "@/page/services/page/Services";
+import Contacto from "@/page/Contact/Contacto";  // Asegúrate de importar correctamente el componente
 
 const appRouter = [
   {
@@ -80,7 +81,7 @@ const appRouter = [
       },
       {
         path: "/lista-de-pedidos",
-        element: <OrdersOfUser/>
+        element: <OrdersOfUser />,
       },
       {
         path: "/atencion-de-pedidos",
@@ -103,31 +104,20 @@ const appRouter = [
         element:<Other/>
       },
       {
+        path: "/contact",  
+        element: <Contacto />,  
+      },
+      {
         path: "*",
-        element: <RouteNotFound/>
-      },
-      /* {
-        path: "/",
-        element: <Inicio />,
-      },*/
-      {
-        path:"/services",
-        element:<Services/>
-      },
-      /*{
-        path: "/",
-        element: <SobreNosotros />,
+        element: <RouteNotFound />,
       },
       {
-        path: "/",
-        element: <Productos />,
+        path: "/services",
+        element: <Services />,
       },
-      {
-        path: "/",
-        element: <Contactos />,
-      }, */
     ],
   },
 ];
 
 export default appRouter;
+
