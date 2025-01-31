@@ -1,57 +1,39 @@
-import { Button } from "@/components/ui/Button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/Dialog";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import ProductForm from "../ProductForm";
-
-export default function ProductActions() {
-  const [isPending, setIsPending] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+const Index = () => {
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button className="w-32">Crear Producto</Button>
-      </DialogTrigger>
-      <DialogContent className="gap-8">
-        <DialogHeader>
-          <DialogTitle>Nuevo Producto</DialogTitle>
-          <DialogDescription>
-            En este formulario puedes crear un nuevo Producto
-          </DialogDescription>
-        </DialogHeader>
-        <ProductForm setIsPending={setIsPending} setIsOpen={setIsOpen} />
-        <DialogFooter className="flex sm:justify-between gap-4">
-          <DialogClose asChild>
-            <Button className="w-full" variant="outline">
-              Cerrar
-            </Button>
-          </DialogClose>
-          <Button
-            className="w-full"
-            disabled={isPending}
-            type="submit"
-            form="add-product-form"
-          >
-            {isPending && (
-              <Loader2
-                className="mr-2 h-4 w-4 animate-spin"
-                aria-hidden="true"
-              />
-            )}
-            Agregar
-            <span className="sr-only">Agregar nuevo producto</span>
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <div className="flex justify-center items-center h-75vh] bg-[]">
+<div className="w-full max-w-7xl mx-auto mt-0 p-4 rounded-lg shadow-lg" style={{ backgroundColor: "#DBE4E4" }}>        <div className="flex items-center justify-between">
+          {/* Texto "LOS MEJORES PRODUCTOS" */}
+          <div className="flex flex-col justify-center">
+            <h1 className="text-4xl font-bold text-black">
+              LOS MEJORES <span className="text-[#166E63]">PRODUCTOS</span>
+            </h1>
+          </div>
+
+          {/* Imagen principal */}
+          <img
+            src="src/assets/Main image.png"
+            alt="Model showing product"
+            className="w-1/3 object-contain"
+          />
+
+          {/* Sección "NUEVA Crema hidratante" */}
+          <div className="flex flex-col items-start">
+            <div className="flex items-center">
+              {/* Línea verde */}
+              <div className="w-1 h-10 bg-[#166E63] mr-2"></div>
+              {/* Texto NUEVA */}
+              <h2 className="text-xl font-bold text-black">NUEVA</h2>
+            </div>
+            {/* Texto Crema hidratante */}
+            <h2 className="text-xl font-bold text-[#166E63]">Crema hidratante</h2>
+            <p className="text-sm text-gray-600 mt-2">
+              Descubre nuestra nueva crema, perfecta para todo tipo de piel.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default Index;

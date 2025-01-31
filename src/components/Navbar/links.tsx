@@ -9,4 +9,9 @@ export const links = [
     title: "Sobre nosotros",
     path: "/sobre-nosotros",
   },
+  {
+    id: 3,
+    title: "Productos",
+    path: "/Productos",
+  },
 ];
