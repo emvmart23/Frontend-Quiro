@@ -121,26 +121,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
 const products = [
   {
     image: "/src/assets/Bottle.png",
-    title: "Mascarilla Facial",
-    price: "S/. 35.99",
-    description: "Crema humectante rica en minerales naturales.",
-  },
-  {
-    image: "/src/assets/Bottle.png",
     title: "Mascarilla Capilar",
     price: "S/. 40.99",
     description: "Nutre profundamente el cabello seco y dañado.",
   },
   {
     image: "/src/assets/Bottle.png",
-    title: "Crema Corporal",
+    title: "Crema Corporal 2",
     price: "S/. 50.99",
     description: "Hidrata y suaviza la piel al instante.",
   },
   {
     image: "/src/assets/Bottle.png",
+    title: "Mascarilla Facial",
+    price: "S/. 30.99",
+    description: "Crema humectante rica en minerales naturales.",
+  },
+  {
+    image: "/src/assets/Bottle.png",
     title: "Gel Facial",
-    price: "S/. 45.99",
+    price: "S/. 40.99",
     description: "Limpieza profunda y frescura para tu rostro.",
   },
   {
