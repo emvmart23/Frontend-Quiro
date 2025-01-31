@@ -32,7 +32,7 @@ const Contacto = () => {
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.759051567578!2d-77.04281028556122!3d-12.046372991178007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105d8a8d6ab25f%3A0xf5ab015406be84b!2sLima%2C%20Per%C3%BA!5e0!3m2!1ses!2sus!4v1642352054333!5m2!1ses!2sus"
           width="100%"
           height="450"
-          allowFullScreen=""
+          //</div>allowFullScreen=""
           loading="lazy"
           className="border-0 rounded-lg shadow-md"
         ></iframe>
