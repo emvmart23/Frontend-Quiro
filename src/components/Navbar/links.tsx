@@ -11,7 +11,12 @@ export const links = [
   },
   {
     id: 3,
-    title: "Productos",
-    path: "/Productos",
+    title: "Servicios",
+    path: "/services",
+  },
+  {
+    id: 4,  
+    title: "Contacto",  
+    path: "/contact",  
   },
 ];

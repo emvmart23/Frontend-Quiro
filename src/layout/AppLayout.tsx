@@ -45,11 +45,11 @@ export default function AppLayout() {
             </span>
             <UserDropDown />
           </div>
-          
+
         </div>
-        
+
       </div>
-      <div className="transition-all duration-200 w-full pt-10">
+      <div className="transition-all duration-200 mx-auto w-full max-w-320 pt-10">
         <Outlet />
       </div>
       <Toaster />

@@ -1,4 +1,4 @@
-import ProtectedRoute from "@/components/ProtectedRoute";
+//import ProtectedRoute from "@/components/ProtectedRoute";
 import RouteNotFound from "@/components/RouteNotFound";
 import AppLayout from "@/layout/AppLayout";
 import Attendance from "@/page/attendance/page/Attendance";
@@ -19,6 +19,8 @@ import OrdersOfUser from "@/page/orders/page/OrdersOfUser";
 import ReportHostess from "@/page/reports/hostess/page/ReportHostess";
 import CloseOfBoxes from "@/page/reports/closeOfBox/page/CloseOfBoxes";
 import Other from "@/page/otherExpenses/page/Other";
+import Services from "@/page/services/page/Services";
+import Contacto from "@/page/Contact/Contacto";  // Asegúrate de importar correctamente el componente
 
 const appRouter = [
   {
@@ -79,7 +81,7 @@ const appRouter = [
       },
       {
         path: "/lista-de-pedidos",
-        element: <OrdersOfUser/>
+        element: <OrdersOfUser />,
       },
       {
         path: "/atencion-de-pedidos",
@@ -102,31 +104,20 @@ const appRouter = [
         element:<Other/>
       },
       {
+        path: "/contact",  
+        element: <Contacto />,  
+      },
+      {
         path: "*",
-        element: <RouteNotFound/>
-      },
-      /* {
-        path: "/",
-        element: <Inicio />,
+        element: <RouteNotFound />,
       },
       {
-        path: "/",
-        element: <Servicios />,
+        path: "/services",
+        element: <Services />,
       },
-      {
-        path: "/",
-        element: <SobreNosotros />,
-      },
-      {
-        path: "/",
-        element: <Productos />,
-      },
-      {
-        path: "/",
-        element: <Contactos />,
-      }, */
     ],
   },
 ];
 
 export default appRouter;
+
