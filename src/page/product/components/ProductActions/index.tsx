@@ -1,7 +1,11 @@
-const Index = () => {
+export default function ProductActions() {
   return (
     <div className="flex justify-center items-center h-75vh] bg-[]">
-<div className="w-full max-w-7xl mx-auto mt-0 p-4 rounded-lg shadow-lg" style={{ backgroundColor: "#DBE4E4" }}>        <div className="flex items-center justify-between">
+      <div
+        className="w-full max-w-7xl mx-auto mt-0 p-4 rounded-lg shadow-lg bg-[#DBE4E4]"
+      >
+        {" "}
+        <div className="flex items-center justify-between">
           {/* Texto "LOS MEJORES PRODUCTOS" */}
           <div className="flex flex-col justify-center">
             <h1 className="text-4xl font-bold text-black">
@@ -25,7 +29,9 @@ const Index = () => {
               <h2 className="text-xl font-bold text-black">NUEVA</h2>
             </div>
             {/* Texto Crema hidratante */}
-            <h2 className="text-xl font-bold text-[#166E63]">Crema hidratante</h2>
+            <h2 className="text-xl font-bold text-[#166E63]">
+              Crema hidratante
+            </h2>
             <p className="text-sm text-gray-600 mt-2">
               Descubre nuestra nueva crema, perfecta para todo tipo de piel.
             </p>
@@ -34,6 +40,4 @@ const Index = () => {
       </div>
     </div>
   );
-};
-
-export default Index;
+}

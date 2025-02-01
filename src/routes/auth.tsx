@@ -1,5 +1,4 @@
 import AuthLayout from "../layout/AuthLayout";
-import User from "@/page/user/page/Users"
 import LoginCard from "@/page/auth/components/Logincard";
 
 const createAuthRoute = (element: React.ReactNode) => (
@@ -13,7 +12,7 @@ const authRouter = [
     },
     {
         path: "/register",
-        element: createAuthRoute(<User/>),
+        element: createAuthRoute(<div></div>),
     }
 ]
 

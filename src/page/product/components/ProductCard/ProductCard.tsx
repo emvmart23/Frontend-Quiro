@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 
 interface ProductCardProps {
   products: {
@@ -9,17 +9,23 @@ interface ProductCardProps {
   }[];
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [modalContent, setModalContent] = React.useState({
+export default function ProductCard({ products }: ProductCardProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({
     image: "",
     title: "",
     price: "",
     description: "",
   });
-  const [quantity, setQuantity] = React.useState(1);
 
-  const openModal = (product: { image: string; title: string; price: string; description: string }) => {
+  const [quantity, setQuantity] = useState(1);
+
+  const openModal = (product: {
+    image: string;
+    title: string;
+    price: string;
+    description: string;
+  }) => {
     setModalContent(product);
     setQuantity(1);
     setIsModalOpen(true);
@@ -36,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
   };
 
   return (
-    <div className="p-8" style={{ backgroundColor: "" }}>
+    <div className="p-8">
       <h1 className="text-2xl font-bold text-center mb-10">Catálogo</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center justify-items-center">
         {products.map((product, index) => (
@@ -52,7 +58,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
                 borderRadius: "10px",
               }}
             >
-              <img src={product.image} alt={product.title} className="w-32 h-42 my-3" />
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-32 h-42 my-3"
+              />
             </div>
             <h3 className="text-lg font-semibold mt-4">{product.title}</h3>
             <p className="text-gray-600">{product.price}</p>
@@ -77,13 +87,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
             <button
               className="absolute top-3 right-3 w-8 h-8 bg-white border border-gray-300 rounded-full flex items-center justify-center shadow hover:bg-gray-200"
               onClick={closeModal}
-              style={{ color: "#166E63" }} 
+              style={{ color: "#166E63" }}
             >
               ✖
             </button>
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <img src={modalContent.image} alt={modalContent.title} className="w-20 h-25" />
+                <img
+                  src={modalContent.image}
+                  alt={modalContent.title}
+                  className="w-20 h-25"
+                />
                 <h2 className="text-lg font-bold">{modalContent.title}</h2>
               </div>
               <div className="flex items-center justify-between mb-4">
@@ -116,45 +130,4 @@ const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
       )}
     </div>
   );
-};
-
-const products = [
-  {
-    image: "/src/assets/Bottle.png",
-    title: "Mascarilla Capilar",
-    price: "S/. 40.99",
-    description: "Nutre profundamente el cabello seco y dañado.",
-  },
-  {
-    image: "/src/assets/Bottle.png",
-    title: "Crema Corporal 2",
-    price: "S/. 50.99",
-    description: "Hidrata y suaviza la piel al instante.",
-  },
-  {
-    image: "/src/assets/Bottle.png",
-    title: "Mascarilla Facial",
-    price: "S/. 30.99",
-    description: "Crema humectante rica en minerales naturales.",
-  },
-  {
-    image: "/src/assets/Bottle.png",
-    title: "Gel Facial",
-    price: "S/. 40.99",
-    description: "Limpieza profunda y frescura para tu rostro.",
-  },
-  {
-    image: "/src/assets/Bottle.png",
-    title: "Serum Facial",
-    price: "S/. 70.99",
-    description: "Rejuvenece y nutre la piel con antioxidantes.",
-  },
-  {
-    image: "/src/assets/Bottle.png",
-    title: "Exfoliante Corporal",
-    price: "S/. 59.99",
-    description: "Elimina células muertas dejando una piel suave.",
-  },
-];
-
-export default () => <ProductCard products={products} />;
+}

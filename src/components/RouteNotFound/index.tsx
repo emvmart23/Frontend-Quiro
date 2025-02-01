@@ -1,5 +1,3 @@
 export default function RouteNotFound() {
-  return (
-    <div>Ruta no encontrada</div>
-  )
+  return <div className="w-full text-center">Ruta no encontrada</div>;
 }
